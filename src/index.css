@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 font-sans antialiased;
+  }
+}
+
+/* Fallback / Explicit Force for v4 if variant fails */
+:root.dark body {
+  background-color: #0f172a;
+  /* slate-900 */
+  color: #e2e8f0;
+  /* slate-200 */
+}
