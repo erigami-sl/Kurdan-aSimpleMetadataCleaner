@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Server - sensitive data
+server/uploads/*
+!server/uploads/.gitkeep
+server/stats.json
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Memory Bank (local docs)
+memory-bank/
