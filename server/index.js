@@ -1,5 +1,8 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs-extra';
@@ -14,7 +17,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
 const STATS_FILE = path.join(__dirname, 'stats.json');
 
@@ -58,9 +61,28 @@ const corsOptions = {
     maxAge: 86400 // 24 saat - preflight cache
 };
 
-// Middleware
+// === SECURITY MIDDLEWARE ===
+app.use(helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: false // Frontend ayrı çalışıyor
+}));
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
+
+// === RATE LIMITING ===
+const apiLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 dakika
+    max: 100,
+    message: { error: 'Too many requests' }
+});
+
+const uploadLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 dakika
+    max: 50,
+    message: { error: 'Too many uploads, try again later' }
+});
+
+app.use('/api/', apiLimiter);
 
 // Root endpoint check
 app.get('/', (req, res) => {
@@ -103,8 +125,16 @@ const fileFilter = (req, file, cb) => {
     if (ALLOWED_MIMETYPES.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(new Error(`Desteklenmeyen dosya tipi: ${file.mimetype}`), false);
+        cb(new Error(`Unsupported file type: ${file.mimetype}`), false);
     }
+};
+
+// Dosya adı sanitization
+const sanitizeFilename = (filename) => {
+    return filename
+        .replace(/\x00/g, '')                    // Null byte temizle
+        .replace(/[^a-zA-Z0-9_.\-]/g, '_')       // Sadece güvenli karakterler
+        .substring(0, 100);                       // Max 100 karakter
 };
 
 // Multer Storage (Temp)
@@ -113,7 +143,8 @@ const storage = multer.diskStorage({
         cb(null, UPLOAD_DIR);
     },
     filename: (req, file, cb) => {
-        const uniqueName = `${uuidv4()}-${file.originalname}`;
+        const safeName = sanitizeFilename(file.originalname);
+        const uniqueName = `${uuidv4()}-${safeName}`;
         cb(null, uniqueName);
     }
 });
@@ -363,7 +394,7 @@ const processFile = async (filePath, mimetype) => {
 // -- Routes --
 
 // 1. Upload & Inspect
-app.post('/api/upload', upload.single('file'), async (req, res) => {
+app.post('/api/upload', uploadLimiter, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
@@ -436,8 +467,7 @@ app.get('/api/clean/:id', async (req, res) => {
         const finalPath = await processFile(filePath, mimeType);
 
         // Increment counter on successful processing
-        const totalCleaned = incrementCleanedCount();
-        console.log(`[Stats] Total files cleaned: ${totalCleaned}`);
+        incrementCleanedCount();
 
         // Download the cleaned file
         res.download(finalPath, downloadName, (err) => {
@@ -448,9 +478,21 @@ app.get('/api/clean/:id', async (req, res) => {
         });
 
     } catch (err) {
-        console.error('[Error] Processing failed');
         res.status(500).json({ error: 'Processing failed' });
     }
+});
+
+// === GLOBAL ERROR HANDLER ===
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ error: 'File too large (max 50MB)' });
+        }
+        return res.status(400).json({ error: err.message });
+    }
+    res.status(err.status || 500).json({
+        error: process.env.NODE_ENV === 'production' ? 'An error occurred' : err.message
+    });
 });
 
 // === OTOMATİK DOSYA TEMİZLİĞİ ===
