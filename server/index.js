@@ -49,8 +49,17 @@ const incrementCleanedCount = () => {
 // Ensure upload directory exists
 fs.ensureDirSync(UPLOAD_DIR);
 
+// === CORS YAPILANDIRMASI ===
+const corsOptions = {
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173'],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    credentials: false,
+    maxAge: 86400 // 24 saat - preflight cache
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Root endpoint check
@@ -67,6 +76,37 @@ app.get('/api/stats', (req, res) => {
     });
 });
 
+// === DOSYA YÜKLEME GÜVENLİĞİ ===
+
+// İzin verilen MIME tipleri (desteklenen formatlar)
+const ALLOWED_MIMETYPES = [
+    // Görseller
+    'image/jpeg', 'image/png', 'image/gif', 'image/webp',
+    'image/heic', 'image/heif', 'image/avif', 'image/tiff',
+    // Ses
+    'audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg',
+    'audio/x-m4a', 'audio/mp4', 'audio/flac',
+    // PDF
+    'application/pdf',
+    // Office - Modern
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',   // .docx
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',          // .xlsx
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',  // .pptx
+    // Office - OpenDocument
+    'application/vnd.oasis.opendocument.text',          // .odt
+    'application/vnd.oasis.opendocument.spreadsheet',   // .ods
+    'application/vnd.oasis.opendocument.presentation'   // .odp
+];
+
+// Dosya tipi filtresi
+const fileFilter = (req, file, cb) => {
+    if (ALLOWED_MIMETYPES.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error(`Desteklenmeyen dosya tipi: ${file.mimetype}`), false);
+    }
+};
+
 // Multer Storage (Temp)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -77,7 +117,16 @@ const storage = multer.diskStorage({
         cb(null, uniqueName);
     }
 });
-const upload = multer({ storage });
+
+// Multer yapılandırması
+const upload = multer({
+    storage,
+    limits: {
+        fileSize: 50 * 1024 * 1024,  // 50MB maksimum dosya boyutu
+        files: 10                      // Tek seferde maksimum 10 dosya
+    },
+    fileFilter
+});
 
 // -- Inspection Logic --
 import piexif from 'piexifjs';
@@ -338,7 +387,27 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
 app.get('/api/clean/:id', async (req, res) => {
     try {
         const fileId = req.params.id;
-        const filePath = path.join(UPLOAD_DIR, fileId);
+
+        // === PATH TRAVERSAL KORUMALARI ===
+
+        // 1. UUID format doğrulaması (UUID-filename formatı bekleniyor)
+        if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}-.+$/i.test(fileId)) {
+            return res.status(400).json({ error: 'Invalid file ID format' });
+        }
+
+        // 2. path.basename() ile sadece dosya adını al (../ karakterlerini temizler)
+        const safeFileName = path.basename(fileId);
+
+        // 3. Güvenli yol oluştur
+        const filePath = path.join(UPLOAD_DIR, safeFileName);
+
+        // 4. path.resolve() ile tam yolu çöz ve UPLOAD_DIR içinde olduğunu doğrula
+        const resolvedPath = path.resolve(filePath);
+        const resolvedUploadDir = path.resolve(UPLOAD_DIR);
+
+        if (!resolvedPath.startsWith(resolvedUploadDir + path.sep)) {
+            return res.status(403).json({ error: 'Access denied' });
+        }
 
         if (!fs.existsSync(filePath)) {
             return res.status(404).json({ error: 'File not found or expired' });
@@ -384,10 +453,49 @@ app.get('/api/clean/:id', async (req, res) => {
     }
 });
 
+// === OTOMATİK DOSYA TEMİZLİĞİ ===
+const CLEANUP_MAX_AGE = 30 * 60 * 1000; // 30 dakika
+
+const cleanupOldFiles = async () => {
+    try {
+        const files = await fs.readdir(UPLOAD_DIR);
+        const now = Date.now();
+        let cleanedCount = 0;
+
+        for (const file of files) {
+            // .gitkeep dosyasını atla
+            if (file === '.gitkeep') continue;
+
+            const filePath = path.join(UPLOAD_DIR, file);
+
+            try {
+                const stats = await fs.stat(filePath);
+
+                // 30 dakikadan eski dosyaları sil
+                if (now - stats.mtimeMs > CLEANUP_MAX_AGE) {
+                    await fs.unlink(filePath);
+                    cleanedCount++;
+                }
+            } catch (err) {
+                // Dosya erişim hatası, sessizce geç
+            }
+        }
+
+        if (cleanedCount > 0) {
+            // Sadece silinen dosya varsa log (opsiyonel, production'da kaldırılabilir)
+        }
+    } catch (err) {
+        // Klasör okuma hatası, sessizce geç
+    }
+};
 
 // Start
 app.listen(PORT, async () => {
     const stats = loadStats();
-    console.log(`[Server] Started on port ${PORT}`);
-    console.log(`[Stats] Total files cleaned so far: ${stats.totalCleaned}`);
+
+    // Sunucu başlangıcında eski dosyaları temizle
+    await cleanupOldFiles();
+
+    // Her 30 dakikada bir temizlik yap
+    setInterval(cleanupOldFiles, CLEANUP_MAX_AGE);
 });
