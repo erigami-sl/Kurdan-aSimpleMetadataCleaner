@@ -62,6 +62,22 @@ const corsOptions = {
 };
 
 // === SECURITY MIDDLEWARE ===
+
+// Trust proxy (for nginx, cloudflare, etc.)
+if (process.env.BEHIND_PROXY === 'true') {
+    app.set('trust proxy', 1);
+}
+
+// HTTPS redirect in production
+if (process.env.NODE_ENV === 'production') {
+    app.use((req, res, next) => {
+        if (req.header('x-forwarded-proto') !== 'https') {
+            return res.redirect(`https://${req.header('host')}${req.url}`);
+        }
+        next();
+    });
+}
+
 app.use(helmet({
     crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: false // Frontend ayrı çalışıyor
