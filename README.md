@@ -20,10 +20,40 @@ Kürdan is a privacy-focused, server-side metadata cleaning tool designed to str
     -   **Keyboard Shortcuts**: Use `Delete` or `Backspace` to remove files, and `Ctrl+V` to paste files directly from clipboard.
     -   **Drag & Drop**: Robust drag-and-drop support.
 
+## Security
+
+Kürdan implements comprehensive security measures to protect both users and the server:
+
+### Server Security
+
+| Feature | Description |
+|---------|-------------|
+| **Helmet** | Security headers (X-Content-Type-Options, X-Frame-Options, etc.) |
+| **Rate Limiting** | 100 req/min for API, 50 uploads per 15 minutes |
+| **CORS** | Configurable allowed origins via environment variables |
+| **Path Traversal Protection** | UUID validation + path.basename() + resolved path checks |
+| **File Upload Limits** | 50MB max file size, 10 files max per upload |
+| **MIME Validation** | Only whitelisted file types accepted |
+| **Filename Sanitization** | Null bytes and special characters removed |
+| **Auto Cleanup** | Files automatically deleted after 30 minutes |
+| **HTTPS Redirect** | Automatic HTTPS enforcement in production |
+| **Proxy Support** | Configurable for nginx/Cloudflare deployments |
+| **Global Error Handler** | Safe error messages in production |
+
+### Privacy
+
+Kürdan operates with a strict **No-Logs Policy**:
+- ✅ No file names or IDs logged
+- ✅ No user IP addresses collected
+- ✅ No analytics or tracking
+- ✅ Files deleted immediately after processing
+- ✅ Only anonymous counter (total files cleaned) is tracked
+
 ## Tech Stack
 
 -   **Frontend**: React + Vite + Tailwind CSS v4 + Lucide Icons + i18next
--   **Backend**: Node.js + Express + Multer
+-   **Backend**: Node.js + Express 5 + Multer
+-   **Security**: Helmet + express-rate-limit + dotenv
 -   **Core Libraries**:
     -   `sharp` (High-performance image processing)
     -   `node-id3` & `music-metadata` (Audio metadata handling)
@@ -35,7 +65,7 @@ Kürdan is a privacy-focused, server-side metadata cleaning tool designed to str
 
 ### Prerequisites
 
--   Node.js (v16 or higher)
+-   Node.js (v18 or higher)
 -   npm
 
 ### Installation
@@ -52,6 +82,22 @@ Kürdan is a privacy-focused, server-side metadata cleaning tool designed to str
     cd ..
     ```
 
+3.  **Configure environment** (optional):
+    ```bash
+    cd server
+    cp .env.example .env
+    # Edit .env as needed
+    ```
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `3000` | Server port |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | Comma-separated CORS origins |
+| `NODE_ENV` | `development` | Environment (`development`/`production`) |
+| `BEHIND_PROXY` | `false` | Set to `true` if behind nginx/Cloudflare |
+
 ### Running the Application
 
 You need to run both the frontend and backend servers.
@@ -59,7 +105,9 @@ You need to run both the frontend and backend servers.
 1.  **Start the Backend API**:
     ```bash
     cd server
-    node index.js
+    npm start
+    # Or for development with auto-reload:
+    npm run dev
     ```
     (Runs on `http://localhost:3000`)
 
@@ -75,19 +123,20 @@ You need to run both the frontend and backend servers.
 ## API Endpoints
 
 | Endpoint | Method | Description |
-|---|---|---|
+|----------|--------|-------------|
+| `/` | GET | API status check |
 | `/api/upload` | POST | Upload a file for metadata inspection |
 | `/api/clean/:id` | GET | Clean and download a processed file |
 | `/api/stats` | GET | Get anonymous stats (total files cleaned) |
 
-## Privacy
+## Production Deployment
 
-Kürdan operates with a strict **No-Logs Policy**:
-- ✅ No file names or IDs logged
-- ✅ No user IP addresses collected
-- ✅ No analytics or tracking
-- ✅ Files deleted immediately after processing
-- ✅ Only anonymous counter (total files cleaned) is tracked
+For production deployments, ensure:
+
+1. Set `NODE_ENV=production` in your environment
+2. Configure `ALLOWED_ORIGINS` to your frontend domain
+3. If behind a reverse proxy, set `BEHIND_PROXY=true`
+4. Use HTTPS (automatic redirect enabled in production)
 
 ## License
 
