@@ -13,6 +13,7 @@
         "dotenv": "^17.2.3",
         "express": "^5.2.1",
         "express-rate-limit": "^8.2.1",
+        "file-type": "^21.3.0",
         "fs-extra": "^11.3.2",
         "helmet": "^8.1.0",
         "jszip": "^3.10.1",
@@ -22,6 +23,7 @@
         "pdf-lib": "^1.17.1",
         "piexifjs": "^1.0.6",
         "sharp": "^0.34.5",
-        "uuid": "^13.0.0"
+        "uuid": "^13.0.0",
+        "write-file-atomic": "^7.0.0"
     }
 }

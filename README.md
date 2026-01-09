@@ -1,143 +1,109 @@
-# Kürdan - A Simple Metadata Cleaner
+# Kürdan - Simple Metadata Cleaner
 
-Kürdan is a privacy-focused, server-side metadata cleaning tool designed to strip sensitive information from your files without compromising their quality. It supports a wide range of formats including Images, Audio, PDFs, and Office documents.
+Kürdan is a privacy-focused web application that removes hidden metadata from your files. When you share photos, documents, or audio files, they often contain sensitive information like GPS coordinates, author names, or device details. Kürdan strips this data while preserving file quality.
+
+![Project Banner](./public/banner.png)
 
 ## Features
 
--   **Privacy First**: Strict "No Logs" policy. Files are processed in ephemeral memory and immediately deleted after download. No file names, IDs, or user data are logged.
--   **Stats Counter**: Anonymous file counter available via `/api/stats` for site integration.
--   **Broad Format Support**:
-    -   **Images**: JPEG, PNG, WebP, GIF, HEIC, AVIF, TIFF (Removes EXIF, XMP, ICC Profiles).
-    -   **Audio**: MP3, WAV, OGG, M4A, FLAC (Removes ID3v1 & ID3v2 tags including cover art).
-    -   **PDFs**: Removes Author, Producer, Keywords, XMP Metadata, and resets dates.
-    -   **Office Docs (DOCX, XLSX, PPTX, ODS, ODT, ODP)**: Cleans core properties (Creator, Last Modified By, Company, etc.).
--   **Modern & Responsive UI**:
-    -   **Visual Feedback**: Circular progress indicators and clear status icons.
-    -   **Metadata Shield**: Verifies and displays "Cleaned" status for processed files.
-    -   **Mobile Ready**: Optimized layout for seamless use on mobile devices.
-    -   **Dark Mode**: Fully supported dark theme for low-light environments.
--   **Productivity**:
-    -   **Keyboard Shortcuts**: Use `Delete` or `Backspace` to remove files, and `Ctrl+V` to paste files directly from clipboard.
-    -   **Drag & Drop**: Robust drag-and-drop support.
+- **Drag & Drop Interface**: Upload files by dragging them into the browser or using Ctrl+V to paste.
+- **Batch Processing**: Clean multiple files at once and download them individually or as a ZIP archive.
+- **Metadata Preview**: See what hidden data exists in your files before cleaning.
+- **Dark Mode**: Full dark theme support for comfortable use.
+- **Mobile Ready**: Responsive design works on phones and tablets.
 
-## Security
+## Supported File Types
 
-Kürdan implements comprehensive security measures to protect both users and the server:
+| Category | Formats | What Gets Removed |
+|----------|---------|-------------------|
+| **Images** | JPEG, PNG, WebP, GIF, HEIC, AVIF, TIFF | EXIF, XMP, GPS, ICC Profiles |
+| **Audio** | MP3, WAV, OGG, M4A, FLAC | ID3v1/v2 tags, cover art |
+| **Documents** | PDF | Author, Producer, Keywords, Timestamps |
+| **Office** | DOCX, XLSX, PPTX, ODS, ODT, ODP | Creator, Company, Last Modified By |
 
-### Server Security
+## Privacy & Security
 
-| Feature | Description |
-|---------|-------------|
-| **Helmet** | Security headers (X-Content-Type-Options, X-Frame-Options, etc.) |
-| **Rate Limiting** | 100 req/min for API, 50 uploads per 15 minutes |
-| **CORS** | Configurable allowed origins via environment variables |
-| **Path Traversal Protection** | UUID validation + path.basename() + resolved path checks |
-| **File Upload Limits** | 50MB max file size, 10 files max per upload |
-| **MIME Validation** | Only whitelisted file types accepted |
-| **Filename Sanitization** | Null bytes and special characters removed |
-| **Auto Cleanup** | Files automatically deleted after 30 minutes |
-| **HTTPS Redirect** | Automatic HTTPS enforcement in production |
-| **Proxy Support** | Configurable for nginx/Cloudflare deployments |
-| **Global Error Handler** | Safe error messages in production |
+Kürdan is built with a strict **No-Logs Policy**:
 
-### Privacy
+- Files are processed in memory and deleted immediately after download
+- No file names, content, or user data is ever logged
+- Automatic cleanup runs every 30 minutes as a failsafe
+- Only an anonymous global counter (total files cleaned) is tracked
 
-Kürdan operates with a strict **No-Logs Policy**:
-- ✅ No file names or IDs logged
-- ✅ No user IP addresses collected
-- ✅ No analytics or tracking
-- ✅ Files deleted immediately after processing
-- ✅ Only anonymous counter (total files cleaned) is tracked
-
-## Tech Stack
-
--   **Frontend**: React + Vite + Tailwind CSS v4 + Lucide Icons + i18next
--   **Backend**: Node.js + Express 5 + Multer
--   **Security**: Helmet + express-rate-limit + dotenv
--   **Core Libraries**:
-    -   `sharp` (High-performance image processing)
-    -   `node-id3` & `music-metadata` (Audio metadata handling)
-    -   `pdf-lib` (PDF manipulation)
-    -   `jszip` (Office document parsing)
-    -   `piexifjs` (Legacy JPEG support)
+Server security includes rate limiting, CORS protection, MIME type validation, path traversal prevention, and security headers via Helmet.
 
 ## Getting Started
 
-### Prerequisites
+### Requirements
 
--   Node.js (v18 or higher)
--   npm
+- Node.js v18 or higher
+- npm
 
 ### Installation
 
-1.  **Clone the repository**
-2.  **Install dependencies**:
-    ```bash
-    # Install frontend dependencies
-    npm install
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/Kurdan.git
+cd Kurdan
 
-    # Install backend dependencies
-    cd server
-    npm install
-    cd ..
-    ```
+# Install frontend dependencies
+npm install
 
-3.  **Configure environment** (optional):
-    ```bash
-    cd server
-    cp .env.example .env
-    # Edit .env as needed
-    ```
-
-### Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PORT` | `3000` | Server port |
-| `ALLOWED_ORIGINS` | `http://localhost:5173` | Comma-separated CORS origins |
-| `NODE_ENV` | `development` | Environment (`development`/`production`) |
-| `BEHIND_PROXY` | `false` | Set to `true` if behind nginx/Cloudflare |
+# Install backend dependencies
+cd server
+npm install
+```
 
 ### Running the Application
 
-You need to run both the frontend and backend servers.
+You need two terminal windows:
 
-1.  **Start the Backend API**:
-    ```bash
-    cd server
-    npm start
-    # Or for development with auto-reload:
-    npm run dev
-    ```
-    (Runs on `http://localhost:3000`)
+**Terminal 1 - Backend Server:**
+```bash
+cd server
+npm start
+```
 
-2.  **Start the Frontend**:
-    ```bash
-    # In a new terminal from the root folder
-    npm run dev
-    ```
-    (Runs on `http://localhost:5173`)
+**Terminal 2 - Frontend:**
+```bash
+npm run dev
+```
 
-3.  Open your browser and navigate to the frontend URL shown in the terminal.
+Open your browser and go to `http://localhost:5173`
 
-## API Endpoints
+### Environment Configuration
+
+Create a `.env` file in the `server` directory (optional):
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `3000` | Backend server port |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | Allowed CORS origins (comma-separated) |
+| `NODE_ENV` | `development` | Set to `production` for deployment |
+| `BEHIND_PROXY` | `false` | Set to `true` if behind nginx/Cloudflare |
+
+## Tech Stack
+
+**Frontend:** React 19, Vite, Tailwind CSS, i18next, Framer Motion  
+**Backend:** Node.js, Express 5, Sharp, pdf-lib, node-id3, JSZip  
+**Security:** Helmet, express-rate-limit, file-type (magic byte validation)
+
+## API Reference
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/` | GET | API status check |
-| `/api/upload` | POST | Upload a file for metadata inspection |
-| `/api/clean/:id` | GET | Clean and download a processed file |
-| `/api/stats` | GET | Get anonymous stats (total files cleaned) |
+| `/` | GET | Health check |
+| `/api/upload` | POST | Upload file for metadata inspection |
+| `/api/clean/:id` | GET | Clean and download the processed file |
+| `/api/stats` | GET | Get anonymous usage statistics |
 
 ## Production Deployment
 
-For production deployments, ensure:
-
 1. Set `NODE_ENV=production` in your environment
-2. Configure `ALLOWED_ORIGINS` to your frontend domain
-3. If behind a reverse proxy, set `BEHIND_PROXY=true`
-4. Use HTTPS (automatic redirect enabled in production)
+2. Configure `ALLOWED_ORIGINS` to match your frontend domain
+3. If using a reverse proxy, set `BEHIND_PROXY=true`
+4. HTTPS redirect is automatic in production mode
 
 ## License
 
-This project is licensed under the MIT License.
+MIT License - Free to use and modify.

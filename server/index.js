@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from 'uuid';
 import sharp from 'sharp';
 import NodeID3 from 'node-id3';
 import * as mm from 'music-metadata';
+import { fileTypeFromFile } from 'file-type';
+import writeFileAtomic from 'write-file-atomic';
 
 // -- Setup --
 const __filename = fileURLToPath(import.meta.url);
@@ -33,19 +35,19 @@ const loadStats = () => {
     return { totalCleaned: 0, lastUpdated: null };
 };
 
-const saveStats = (stats) => {
+const saveStats = async (stats) => {
     try {
-        fs.writeFileSync(STATS_FILE, JSON.stringify(stats, null, 2));
+        await writeFileAtomic(STATS_FILE, JSON.stringify(stats, null, 2));
     } catch (e) {
         // Failed to save stats silently
     }
 };
 
-const incrementCleanedCount = () => {
+const incrementCleanedCount = async () => {
     const stats = loadStats();
     stats.totalCleaned += 1;
     stats.lastUpdated = new Date().toISOString();
-    saveStats(stats);
+    await saveStats(stats);
     return stats.totalCleaned;
 };
 
@@ -416,6 +418,36 @@ app.post('/api/upload', uploadLimiter, upload.single('file'), async (req, res) =
             return res.status(400).json({ error: 'No file uploaded' });
         }
 
+        // === MAGIC BYTE VALIDATION ===
+        try {
+            const detected = await fileTypeFromFile(req.file.path);
+            // If undetectable (e.g. text file), detected is undefined
+            const detectedMime = detected ? detected.mime : 'unknown';
+
+            // Special handling for Office files (sometimes detected as zip)
+            const isOffice = req.file.mimetype.includes('officedocument') ||
+                req.file.mimetype.includes('msword') ||
+                req.file.mimetype.includes('vnd.openxmlformats');
+
+            // Allow if detected MIME is in our allowed list OR 
+            // if it's an office file detected as zip (docx/xlsx/pptx are zips)
+            const isValid = ALLOWED_MIMETYPES.includes(detectedMime) ||
+                (isOffice && (detectedMime === 'application/zip' || detectedMime === 'application/x-zip-compressed'));
+
+            if (!isValid) {
+                // Remove the file if validation fails
+                await fs.unlink(req.file.path).catch(() => { });
+                return res.status(400).json({
+                    error: 'Security Check Failed: File content does not match extension',
+                    details: `Detected: ${detectedMime}, Claimed: ${req.file.mimetype}`
+                });
+            }
+        } catch (err) {
+            // If validation errors out, clean up and fail safe
+            await fs.unlink(req.file.path).catch(() => { });
+            return res.status(500).json({ error: 'File validation failed' });
+        }
+
         const metadata = await inspectFile(req.file.path, req.file.mimetype);
 
         res.json({
@@ -483,7 +515,7 @@ app.get('/api/clean/:id', async (req, res) => {
         const finalPath = await processFile(filePath, mimeType);
 
         // Increment counter on successful processing
-        incrementCleanedCount();
+        await incrementCleanedCount();
 
         // Download the cleaned file
         res.download(finalPath, downloadName, (err) => {
