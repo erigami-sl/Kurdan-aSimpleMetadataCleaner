@@ -33,5 +33,7 @@ server/stats.json
 .env.*
 !.env.example
 
-# Memory Bank (local docs)
-memory-bank/
+
+# OS specific
+Thumbs.db
+*.bak
