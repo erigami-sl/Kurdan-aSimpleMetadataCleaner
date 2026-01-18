@@ -26,6 +26,9 @@ The project has completed **all security hardening phases** (Critical, High, Med
 - Migration from client-side to server-side architecture
 - Implementation of no-logs policy (removal of console logging)
 - File icon improvements for better theme compatibility
+- **HTTPS Enforcement**: Made conditional on `FORCE_HTTPS` env var to support local Docker testing without SSL errors
+- **API Cleanliness**: Moved root health check to `/api/health` to allow static file serving at `/`
+- **Documentation**: Created `DEPLOYMENT.md` for comprehensive server setup instructions
 
 ## Next Steps
 

@@ -71,7 +71,8 @@ if (process.env.BEHIND_PROXY === 'true') {
 }
 
 // HTTPS redirect in production
-if (process.env.NODE_ENV === 'production') {
+// HTTPS redirect in production
+if (process.env.NODE_ENV === 'production' && process.env.FORCE_HTTPS === 'true') {
     app.use((req, res, next) => {
         if (req.header('x-forwarded-proto') !== 'https') {
             return res.redirect(`https://${req.header('host')}${req.url}`);
@@ -102,8 +103,8 @@ const uploadLimiter = rateLimit({
 
 app.use('/api/', apiLimiter);
 
-// Root endpoint check
-app.get('/', (req, res) => {
+// Health check endpoint
+app.get('/api/health', (req, res) => {
     res.send({ status: 'Metadata Remover API is running', version: '1.0.0' });
 });
 
@@ -587,7 +588,7 @@ if (process.env.SERVE_STATIC === 'true' && process.env.STATIC_DIR) {
     app.use(express.static(DIST_DIR));
 
     // SPA fallback - send index.html for all non-API routes
-    app.get('*', (req, res, next) => {
+    app.get(/.*/, (req, res, next) => {
         if (req.path.startsWith('/api')) {
             return next();
         }
@@ -597,6 +598,7 @@ if (process.env.SERVE_STATIC === 'true' && process.env.STATIC_DIR) {
 
 // Start
 app.listen(PORT, async () => {
+    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
     const stats = loadStats();
 
     // Sunucu başlangıcında eski dosyaları temizle
