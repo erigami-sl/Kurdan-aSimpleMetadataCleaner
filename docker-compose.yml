@@ -1,0 +1,35 @@
+services:
+  app:
+    build: .
+    # REPLACE 'your-username' with your actual GitHub username (lowercase)
+    image: ghcr.io/erigami-sl/kurdan-asimplemetadatacleaner:latest
+    container_name: kurdan_app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - BEHIND_PROXY=true
+      - ALLOWED_ORIGINS=https://kurdancleaner.com
+    volumes:
+      - ./server/stats.json:/app/stats.json
+      # Mount uploads if you want to inspect them for debugging, 
+      # but they are ephemeral anyway.
+    networks:
+      - kurdan_net
+
+  nginx:
+    image: nginx:alpine
+    container_name: kurdan_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - kurdan_net
+
+networks:
+  kurdan_net:
+    driver: bridge

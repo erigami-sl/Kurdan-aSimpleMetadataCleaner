@@ -579,6 +579,22 @@ const cleanupOldFiles = async () => {
     }
 };
 
+// === STATIC FILE SERVING (Docker/Production) ===
+if (process.env.SERVE_STATIC === 'true' && process.env.STATIC_DIR) {
+    const DIST_DIR = process.env.STATIC_DIR;
+
+    // Serve static files from dist folder
+    app.use(express.static(DIST_DIR));
+
+    // SPA fallback - send index.html for all non-API routes
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api')) {
+            return next();
+        }
+        res.sendFile(path.join(DIST_DIR, 'index.html'));
+    });
+}
+
 // Start
 app.listen(PORT, async () => {
     const stats = loadStats();
