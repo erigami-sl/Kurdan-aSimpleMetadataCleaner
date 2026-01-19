@@ -38,7 +38,8 @@ const resources = {
                     "cleanedTitle": "Cleaned File Info",
                     "cleanedSuccess": "Clean & Secure",
                     "cleanedDesc": "This file has been processed. All metadata has been stripped."
-                }
+                },
+                "totalCleanedGlobal": "{{count}} files cleaned globally"
             },
             "footer": {
                 "privacy": "Privacy Policy",
@@ -172,7 +173,8 @@ const resources = {
                     "cleanedTitle": "Temizlenmiş Dosya Bilgisi",
                     "cleanedSuccess": "Temiz ve Güvenli",
                     "cleanedDesc": "Bu dosya işlendi. Tüm metaveriler silindi."
-                }
+                },
+                "totalCleanedGlobal": "Toplam {{count}} dosya temizlendi"
             },
             "footer": {
                 "privacy": "Gizlilik Politikası",

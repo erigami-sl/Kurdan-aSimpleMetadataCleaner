@@ -13,7 +13,7 @@ The project has completed **all security hardening phases** (Critical, High, Med
 ### Security Fixes Implemented
 - **Path Traversal Protection**: UUID validation + path.resolve checks
 - **CORS Restriction**: Origin whitelist from environment variables
-- **File Upload Limits**: 50MB size, MIME whitelist, max 10 files
+- **File Upload Limits**: 150MB size, MIME whitelist, max 10 files
 - **Auto Cleanup**: 30-minute old file deletion
 - **Rate Limiting**: API (100/min), Upload (50/15min)
 - **Security Headers**: Helmet middleware

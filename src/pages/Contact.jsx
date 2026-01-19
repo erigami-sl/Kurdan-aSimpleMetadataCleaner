@@ -24,10 +24,10 @@ export default function Contact() {
                 </p>
                 <div className="space-y-3">
                     <a
-                        href="mailto:contact@kürdan.app"
+                        href="mailto:contact@kurdancleaner.com"
                         className="block text-center text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 hover:underline bg-indigo-50 dark:bg-indigo-900/20 py-3 px-4 rounded-lg transition-colors"
                     >
-                        contact@kürdan.app
+                        contact@kurdancleaner.com
                     </a>
                 </div>
             </div>

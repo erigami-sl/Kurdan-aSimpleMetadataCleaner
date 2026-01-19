@@ -43,7 +43,7 @@
 ### Security Features ✅
 - [x] Path traversal protection
 - [x] CORS origin whitelist
-- [x] File size limit (50MB)
+- [x] File size limit (150MB)
 - [x] MIME type whitelist
 - [x] Rate limiting (API + Upload)
 - [x] Security headers (Helmet)

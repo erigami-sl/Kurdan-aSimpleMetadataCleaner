@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { ShieldCheck, Zap, EyeOff, Download, Trash2, CloudUpload } from 'lucide-react';
+import { ShieldCheck, Zap, EyeOff, Download, Trash2, CloudUpload, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Dropzone from '../components/Dropzone';
 import FileItem from '../components/FileItem';
@@ -13,6 +13,15 @@ export default function Home() {
     const [selectedFileId, setSelectedFileId] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [globalStats, setGlobalStats] = useState({ total: 0, cleaned: 0 });
+    const [globalTotalCleaned, setGlobalTotalCleaned] = useState(0);
+
+    // Fetch global stats on mount
+    useEffect(() => {
+        fetch('/api/stats')
+            .then(res => res.json())
+            .then(data => setGlobalTotalCleaned(data.totalCleaned || 0))
+            .catch(() => { });
+    }, []);
 
     const handleFilesAdded = useCallback(async (newFiles) => {
         // Optimistic UI updates
@@ -20,6 +29,7 @@ export default function Home() {
             id: Math.random().toString(36).substr(2, 9), // Temp ID until server responds
             originalFile: file,
             status: 'uploading', // Initial status
+            uploadProgress: 0, // Upload progress percentage
             error: null,
             cleanedBlob: null,
             cleanedName: file.name.replace(/(\.[\w\d]+)$/, '_cleaned$1'),
@@ -29,39 +39,58 @@ export default function Home() {
 
         setFiles(prev => [...prev, ...newEntries]);
 
-        // Upload each file
-        newEntries.forEach(async (entry) => {
+        // Upload each file with progress tracking
+        newEntries.forEach((entry) => {
             const formData = new FormData();
             formData.append('file', entry.originalFile);
 
-            try {
-                const res = await fetch('/api/upload', {
-                    method: 'POST',
-                    body: formData,
-                });
+            const xhr = new XMLHttpRequest();
 
-                if (!res.ok) throw new Error("Upload failed");
+            // Progress event
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    setFiles(prev => prev.map(f =>
+                        f.id === entry.id ? { ...f, uploadProgress: percent } : f
+                    ));
+                }
+            });
 
-                const data = await res.json();
+            // Load complete
+            xhr.addEventListener('load', () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        setFiles(prev => prev.map(f =>
+                            f.id === entry.id ? {
+                                ...f,
+                                status: 'pending',
+                                uploadProgress: 100,
+                                metadata: data.metadata,
+                                serverId: data.id
+                            } : f
+                        ));
+                    } catch (e) {
+                        setFiles(prev => prev.map(f =>
+                            f.id === entry.id ? { ...f, status: 'error', error: 'Parse Error' } : f
+                        ));
+                    }
+                } else {
+                    setFiles(prev => prev.map(f =>
+                        f.id === entry.id ? { ...f, status: 'error', error: 'Upload Failed' } : f
+                    ));
+                }
+            });
 
+            // Error event
+            xhr.addEventListener('error', () => {
                 setFiles(prev => prev.map(f =>
-                    f.id === entry.id ? {
-                        ...f,
-                        status: 'pending',
-                        metadata: data.metadata,
-                        serverId: data.id
-                    } : f
+                    f.id === entry.id ? { ...f, status: 'error', error: 'Network Error' } : f
                 ));
+            });
 
-            } catch (e) {
-                setFiles(prev => prev.map(f =>
-                    f.id === entry.id ? {
-                        ...f,
-                        status: 'error',
-                        error: "Upload Failed"
-                    } : f
-                ));
-            }
+            xhr.open('POST', '/api/upload');
+            xhr.send(formData);
         });
     }, []);
 
@@ -289,6 +318,14 @@ export default function Home() {
                         )}
                     </div>
                 </section>
+            )}
+
+            {/* Global Stats Counter */}
+            {files.length > 0 && globalTotalCleaned > 0 && (
+                <div className="text-center text-sm text-slate-400 dark:text-slate-500 mt-4 flex items-center justify-center gap-2">
+                    <Globe className="w-4 h-4" />
+                    <span>{t('home.totalCleanedGlobal', { count: globalTotalCleaned })}</span>
+                </div>
             )}
         </>
     );

@@ -3,7 +3,7 @@ import { FileText, Image, FileSpreadsheet, File, Presentation, CheckCircle, Aler
 import { saveAs } from 'file-saver';
 
 export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
-    const { originalFile, status, error, cleanedBlob, cleanedName } = fileData;
+    const { originalFile, status, uploadProgress = 0, error, cleanedBlob, cleanedName } = fileData;
 
     const getSize = (bytes) => {
         if (bytes === 0) return '0 B';
@@ -72,12 +72,19 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
         <div
             onClick={() => onSelect(fileData.id)}
             className={`
-                px-4 py-5 md:px-6 md:py-5 flex items-center gap-6 cursor-pointer transition-colors group
+                relative px-4 py-5 md:px-6 md:py-5 flex items-center gap-6 cursor-pointer transition-colors group overflow-hidden
                 ${isSelected ? 'bg-indigo-50/60 dark:bg-indigo-900/40' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'}
             `}
         >
+            {/* Upload Progress Bar (background) */}
+            {status === 'uploading' && (
+                <div
+                    className="absolute inset-y-0 left-0 bg-indigo-100 dark:bg-indigo-900/50 transition-all duration-300 ease-out"
+                    style={{ width: `${uploadProgress}%` }}
+                />
+            )}
             {/* File Icon with Progress Overlay */}
-            <div className="relative flex-shrink-0">
+            <div className="relative flex-shrink-0 z-10">
                 <div className={`transition-opacity ${status === 'processing' ? 'opacity-40' : 'opacity-80 group-hover:opacity-100'}`}>
                     {getIcon()}
                 </div>
@@ -89,7 +96,7 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
             </div>
 
             {/* File Info */}
-            <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
+            <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5 z-10">
                 <span className={`text-sm font-medium truncate ${isSelected ? 'text-indigo-700 dark:text-indigo-300' : 'text-slate-700 dark:text-slate-200'}`}>
                     {originalFile.name}
                 </span>
@@ -99,7 +106,7 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
             </div>
 
             {/* Status & Actions */}
-            <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-2 md:gap-3 z-10">
                 {status === 'done' && <CheckCircle className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />}
                 {status === 'error' && <AlertCircle className="w-4 h-4 text-red-500 dark:text-red-400" title={error} />}
 
