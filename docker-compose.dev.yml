@@ -1,0 +1,44 @@
+services:
+  # Frontend Service (Vite + React)
+  frontend:
+    image: node:22-slim
+    container_name: kurdan_dev_frontend
+    working_dir: /app
+    environment:
+      - VITE_API_URL=http://backend:3000
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    depends_on:
+      - backend
+    networks:
+      - kurdan_dev_net
+
+  # Backend Service (Node.js + Express)
+  backend:
+    image: node:22-slim
+    container_name: kurdan_dev_backend
+    working_dir: /app/server
+    # Needed for sharp library
+    entrypoint: /bin/sh -c "apt-get update && apt-get install -y libvips42 && npm install && npm run dev"
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - ALLOWED_ORIGINS=http://localhost:5173
+      # Disable HTTPS enforcement for local dev
+      - FORCE_HTTPS=false
+    volumes:
+      - ./server:/app/server
+      - /app/server/node_modules
+      - ./server/uploads:/app/server/uploads
+    ports:
+      - "3000:3000"
+    networks:
+      - kurdan_dev_net
+
+networks:
+  kurdan_dev_net:
+    driver: bridge

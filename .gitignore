@@ -1,3 +1,9 @@
+# Defaults
+node_modules
+dist
+dist-ssr
+*.local
+
 # Logs
 logs
 *.log
@@ -6,11 +12,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
 
 # Editor directories and files
 .vscode/*
@@ -27,16 +28,20 @@ dist-ssr
 server/uploads/*
 !server/uploads/.gitkeep
 server/stats.json
+# Ensure we don't ignore the empty stats file if we want to track the structure, 
+# but usually stats.json is runtime data.
+# If you want to keep a template, use stats.json.example
 
-# Environment
+# SSL & Security
+nginx/ssl/
 .env
 .env.*
 !.env.example
 
-# Memory Bank (local docs)
-# Memory Bank (local docs)
-# memory-bank/
-
 # OS specific
 Thumbs.db
 *.bak
+desktop.ini
+
+# Docker
+docker-compose.override.yml

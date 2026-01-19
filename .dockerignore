@@ -59,6 +59,7 @@ memory-bank
 # Docker files (don't need to copy themselves)
 Dockerfile
 docker-compose.yml
+docker-compose.dev.yml
 .dockerignore
 
 # Test & coverage
