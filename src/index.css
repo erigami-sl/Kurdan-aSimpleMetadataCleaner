@@ -3,6 +3,40 @@
 
 @theme {
   --font-sans: 'Inter', sans-serif;
+  --animate-glow-pulse: glow-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes glow-pulse {
+
+    0%,
+    100% {
+      text-shadow: 0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.1);
+      opacity: 0.9;
+    }
+
+    50% {
+      text-shadow: 0 0 25px rgba(129, 140, 248, 0.8), 0 0 50px rgba(99, 102, 241, 0.6), 0 0 90px rgba(99, 102, 241, 0.4);
+      opacity: 1;
+    }
+  }
+
+  --animate-box-glow-pulse: box-glow-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes box-glow-pulse {
+
+    0%,
+    100% {
+      box-shadow: 0 0 15px -3px rgba(99, 102, 241, 0.15);
+    }
+
+    50% {
+      box-shadow: 0 0 30px -5px rgba(99, 102, 241, 0.3);
+    }
+  }
+}
+
+
+@utility text-shadow-none {
+  text-shadow: none;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));

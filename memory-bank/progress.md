@@ -142,6 +142,14 @@ The application is fully functional for its intended purpose: removing metadata 
 - Added auto file cleanup (30 minutes)
 - Updated README with comprehensive security documentation
 
+### Phase 7: UI Polish (January 24 2026)
+- Improved Global Stats Counter design (Glow effect, no box)
+- Added 'Pulse' animation to stats counter
+- Added 'Breathing' glow animation to Dropzone idle state
+- Implemented hover interactions for Dropzone (retracting glow)
+- Standardized file cleaning logic for all formats
+- Added OpenDocument support
+
 ## Metrics
 
 | Metric | Value |

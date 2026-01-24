@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { ShieldCheck, Zap, EyeOff, Download, Trash2, CloudUpload, Globe } from 'lucide-react';
+import { ShieldCheck, Zap, EyeOff, Download, Trash2, CloudUpload } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Dropzone from '../components/Dropzone';
 import FileItem from '../components/FileItem';
@@ -14,6 +14,7 @@ export default function Home() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [globalStats, setGlobalStats] = useState({ total: 0, cleaned: 0 });
     const [globalTotalCleaned, setGlobalTotalCleaned] = useState(0);
+    const [isInteractionActive, setIsInteractionActive] = useState(false);
 
     // Fetch global stats on mount
     useEffect(() => {
@@ -243,7 +244,11 @@ export default function Home() {
 
             {/* 1. Main Upload Area */}
             <section className="w-full">
-                <Dropzone onFilesAdded={handleFilesAdded} />
+                <Dropzone
+                    onFilesAdded={handleFilesAdded}
+                    onHoverChange={setIsInteractionActive}
+                    forceActive={isInteractionActive}
+                />
             </section>
 
             {/* 2. File List Box & Actions */}
@@ -320,11 +325,16 @@ export default function Home() {
                 </section>
             )}
 
-            {/* Global Stats Counter */}
-            {files.length > 0 && globalTotalCleaned > 0 && (
-                <div className="text-center text-sm text-slate-400 dark:text-slate-500 mt-4 flex items-center justify-center gap-2">
-                    <Globe className="w-4 h-4" />
-                    <span>{t('home.totalCleanedGlobal', { count: globalTotalCleaned })}</span>
+            {/* Global Stats Counter - Always visible, near footer */}
+            {globalTotalCleaned > 0 && (
+                <div className="w-full mt-auto pt-8 pb-20">
+                    <p
+                        className={`text-lg md:text-xl font-bold text-center w-full transition-colors duration-300 cursor-default shadow-none ${isInteractionActive ? 'animate-none text-shadow-none text-indigo-500 dark:text-indigo-400' : 'text-slate-50 dark:text-slate-900 animate-glow-pulse'}`}
+                        onMouseEnter={() => setIsInteractionActive(true)}
+                        onMouseLeave={() => setIsInteractionActive(false)}
+                    >
+                        {t('home.globalStatsPrefix')}{t('home.globalStatsPrefix') && ' '}{globalTotalCleaned.toLocaleString()} {t('home.globalStatsSuffix')}
+                    </p>
                 </div>
             )}
         </>

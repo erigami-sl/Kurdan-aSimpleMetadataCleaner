@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export default function Dropzone({ onFilesAdded }) {
+export default function Dropzone({ onFilesAdded, onHoverChange, forceActive }) {
     const { t } = useTranslation();
     const [isDragActive, setIsDragActive] = useState(false);
     const inputRef = useRef(null);
@@ -37,14 +37,20 @@ export default function Dropzone({ onFilesAdded }) {
         inputRef.current.click();
     };
 
+    // Active state logic: Dragging OR Forced Active (from parent hover)
+    // If Forced Active: Apply hover styles manually
+    const isActive = isDragActive || forceActive;
+
     return (
         <div
             className={`
                 relative group rounded-xl border-2 border-dashed transition-all duration-200 ease-out cursor-pointer
                 flex flex-col items-center justify-center py-8 px-4 md:py-12 md:px-6
                 ${isDragActive
-                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 dark:border-indigo-400'
-                    : 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-white dark:hover:bg-slate-800'
+                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 dark:border-indigo-400 shadow-none scale-[0.99]'
+                    : forceActive
+                        ? 'border-indigo-400 dark:border-indigo-500 bg-white dark:bg-slate-800 shadow-none animate-none'
+                        : 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-white dark:hover:bg-slate-800 animate-box-glow-pulse hover:animate-none hover:shadow-none transition-shadow'
                 }
             `}
             onDragEnter={handleDrag}
@@ -52,6 +58,8 @@ export default function Dropzone({ onFilesAdded }) {
             onDragOver={handleDrag}
             onDrop={handleDrop}
             onClick={onButtonClick}
+            onMouseEnter={() => onHoverChange && onHoverChange(true)}
+            onMouseLeave={() => onHoverChange && onHoverChange(false)}
         >
             <input
                 ref={inputRef}

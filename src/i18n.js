@@ -39,7 +39,9 @@ const resources = {
                     "cleanedSuccess": "Clean & Secure",
                     "cleanedDesc": "This file has been processed. All metadata has been stripped."
                 },
-                "totalCleanedGlobal": "{{count}} files cleaned globally"
+                "totalCleanedGlobal": "{{count}} files cleaned globally",
+                "globalStatsPrefix": "",
+                "globalStatsSuffix": "files cleaned with Kürdan so far"
             },
             "footer": {
                 "privacy": "Privacy Policy",
@@ -174,7 +176,9 @@ const resources = {
                     "cleanedSuccess": "Temiz ve Güvenli",
                     "cleanedDesc": "Bu dosya işlendi. Tüm metaveriler silindi."
                 },
-                "totalCleanedGlobal": "Toplam {{count}} dosya temizlendi"
+                "totalCleanedGlobal": "Toplam {{count}} dosya temizlendi",
+                "globalStatsPrefix": "Şimdiye dek",
+                "globalStatsSuffix": "dosya Kürdan'la temizlendi"
             },
             "footer": {
                 "privacy": "Gizlilik Politikası",

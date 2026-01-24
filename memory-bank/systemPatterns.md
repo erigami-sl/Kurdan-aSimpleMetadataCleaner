@@ -72,6 +72,41 @@ graph TB
 - Dark mode support built-in
 - Small production bundle size
 
+## Design System & Theming
+### Color Palette
+The application currently uses a specific color palette defined in Tailwind classes and some inline styles.
+
+**Primary Color:** `Indigo` (Tailwind colors)
+- Primary actions: `bg-indigo-600`
+- Hove states: `bg-indigo-700`
+- Accents/Glows: `indigo-400`, `indigo-500`
+
+**Neutral Color:** `Slate` (Tailwind colors)
+- Backgrounds: `bg-slate-50`, `dark:bg-slate-900`
+- Text: `text-slate-800`, `text-slate-200`
+- Borders: `border-slate-200`, `dark:border-slate-700`
+
+### Hardcoded Colors (For Theme Migration)
+Be aware of these specific inline styles when migrating themes:
+
+1. **Global Stats Counter (`Home.jsx`)**:
+   - Glow effect uses hardcoded `rgba(99, 102, 241, ...)` (Indigo-500 equivalent)
+   - Text color uses `text-slate-50` / `dark:text-slate-900`
+
+2. **Dropzone Glow (`Dropzone.jsx`)**:
+   - Idle glow effect uses `shadow-[0_0_30px_-5px_rgba(99,102,241,0.2)]`
+
+### Theme Migration Strategy
+To change the color scheme (e.g., from Indigo to Emerald):
+1. **Tailwind Config**: Update `primary` color alias in `tailwind.config.js` (if creating one) or search/replace `indigo-` classes.
+2. **Inline Styles**: Manually update `rgba(...)` values in `Home.jsx` and `Dropzone.jsx` to match the new primary color's RGB values.
+3. **Icons**: Check Lucide icon color classes (usually `text-indigo-600`).
+
+### Custom Animations
+Glow pulse animations are defined in `index.css` inside the `@theme` block:
+- `animate-glow-pulse`: Text shadow pulse (used for Stats Counter)
+- `animate-box-glow-pulse`: Box shadow pulse (used for Dropzone idle state)
+
 ## Design Patterns in Use
 
 ### Frontend Patterns

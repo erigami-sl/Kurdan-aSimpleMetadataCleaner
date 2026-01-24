@@ -291,30 +291,65 @@ const inspectFile = async (filePath, mimetype) => {
 
 const cleanImage = async (buffer, mimetype) => {
     try {
-        // Use Sharp for robust metadata stripping on all formats (JPG, PNG, WebP, GIF, AVIF, TIFF)
-        // .withMetadata(false) is the key.
-        return await sharp(buffer)
-            .withMetadata(false) // Explicitly remove all metadata
-            .toBuffer();
+        // rotate() processes EXIF orientation and strips it
+        // Sharp by default does NOT copy metadata when re-encoding
+        let sharpInstance = sharp(buffer)
+            .rotate(); // Auto-rotate based on EXIF, then strip EXIF
+
+        // Explicitly set output format to force re-encoding (strips all metadata)
+        if (mimetype === 'image/jpeg' || mimetype === 'image/jpg') {
+            return await sharpInstance
+                .jpeg({ quality: 95, mozjpeg: true })
+                .toBuffer();
+        } else if (mimetype === 'image/png') {
+            return await sharpInstance
+                .png({ compressionLevel: 9 })
+                .toBuffer();
+        } else if (mimetype === 'image/webp') {
+            return await sharpInstance
+                .webp({ quality: 95 })
+                .toBuffer();
+        } else if (mimetype === 'image/gif') {
+            return await sharpInstance
+                .gif()
+                .toBuffer();
+        } else if (mimetype === 'image/avif') {
+            return await sharpInstance
+                .avif({ quality: 80 })
+                .toBuffer();
+        } else if (mimetype === 'image/tiff') {
+            return await sharpInstance
+                .tiff()
+                .toBuffer();
+        } else if (mimetype === 'image/heic' || mimetype === 'image/heif') {
+            // Convert HEIC to JPEG (Sharp can read but not write HEIC)
+            return await sharpInstance
+                .jpeg({ quality: 95 })
+                .toBuffer();
+        }
+
+        // Fallback: just rotate and output as original format
+        return await sharpInstance.toBuffer();
     } catch (e) {
-        return buffer;
+        console.error('cleanImage error:', e.message);
+        throw e;
     }
 };
 
 const cleanAudio = async (filePath) => {
     try {
-        // NodeID3.removeTags returns boolean or validation error
-        // It modifies the file in place or returns buffer? 
-        // Sync version writes to file. Async needs callback.
-        // Let's use buffer interface to be safe and consistent.
-        // NodeID3.removeTagsFromBuffer(buffer)
-
         const buffer = await fs.readFile(filePath);
-        // removeTagsFromBuffer returns the buffer without tags
+        // removeTagsFromBuffer returns the buffer without ID3 tags
         const cleanedBuffer = NodeID3.removeTagsFromBuffer(buffer);
+
+        if (!cleanedBuffer) {
+            throw new Error('Failed to remove audio tags');
+        }
+
         return cleanedBuffer;
     } catch (e) {
-        return await fs.readFile(filePath);
+        console.error('cleanAudio error:', e.message);
+        throw e; // Don't return original - throw error
     }
 };
 
@@ -322,26 +357,30 @@ const cleanPDF = async (buffer) => {
     try {
         const pdfDoc = await PDFDocument.load(buffer);
 
+        // Clear all metadata fields
         pdfDoc.setTitle('');
         pdfDoc.setAuthor('');
         pdfDoc.setSubject('');
         pdfDoc.setKeywords([]);
-        pdfDoc.setProducer('\u200B');
-        pdfDoc.setCreator('\u200B');
+        pdfDoc.setProducer('');
+        pdfDoc.setCreator('');
 
+        // Reset dates to now
         pdfDoc.setCreationDate(new Date());
         pdfDoc.setModificationDate(new Date());
 
+        // Try to remove XMP metadata
         try {
             pdfDoc.catalog.delete(PDFName.of('Metadata'));
         } catch (err) {
-            // XMP removal failed silently
+            // XMP removal failed - not critical
         }
 
         const cleanedBytes = await pdfDoc.save();
         return Buffer.from(cleanedBytes);
     } catch (e) {
-        return buffer;
+        console.error('cleanPDF error:', e.message);
+        throw e; // Don't return original - throw error
     }
 };
 
@@ -349,15 +388,17 @@ const cleanOfficeFile = async (buffer) => {
     try {
         const zip = await JSZip.loadAsync(buffer);
 
+        // === Microsoft Office (DOCX, XLSX, PPTX) ===
         if (zip.file("docProps/core.xml")) {
             let core = await zip.file("docProps/core.xml").async("text");
-            const tagsToRemove = [
+            const coreTagsToRemove = [
                 'dc:creator', 'dc:title', 'dc:subject', 'dc:description',
-                'cp:lastModifiedBy', 'cp:category', 'cp:contentStatus'
+                'cp:lastModifiedBy', 'cp:category', 'cp:contentStatus',
+                'cp:revision', 'dcterms:created', 'dcterms:modified'
             ];
 
-            tagsToRemove.forEach(tag => {
-                const regex = new RegExp(`<${tag}>.*?</${tag}>`, 'g');
+            coreTagsToRemove.forEach(tag => {
+                const regex = new RegExp(`<${tag}[^>]*>.*?</${tag}>`, 'gs');
                 core = core.replace(regex, `<${tag}></${tag}>`);
             });
             zip.file("docProps/core.xml", core);
@@ -365,18 +406,35 @@ const cleanOfficeFile = async (buffer) => {
 
         if (zip.file("docProps/app.xml")) {
             let app = await zip.file("docProps/app.xml").async("text");
-            const tagsToRemove = ['Company', 'Manager'];
-            tagsToRemove.forEach(tag => {
-                const regex = new RegExp(`<${tag}>.*?</${tag}>`, 'g');
+            const appTagsToRemove = ['Company', 'Manager', 'Application', 'AppVersion'];
+            appTagsToRemove.forEach(tag => {
+                const regex = new RegExp(`<${tag}>.*?</${tag}>`, 'gs');
                 app = app.replace(regex, `<${tag}></${tag}>`);
             });
             zip.file("docProps/app.xml", app);
         }
 
+        // === OpenDocument (ODS, ODT, ODP) ===
+        if (zip.file("meta.xml")) {
+            let meta = await zip.file("meta.xml").async("text");
+            const metaTagsToRemove = [
+                'meta:initial-creator', 'meta:creation-date', 'dc:date',
+                'dc:creator', 'meta:editing-cycles', 'meta:editing-duration',
+                'meta:generator', 'dc:title', 'dc:description', 'dc:subject'
+            ];
+
+            metaTagsToRemove.forEach(tag => {
+                const regex = new RegExp(`<${tag}[^>]*>.*?</${tag}>`, 'gs');
+                meta = meta.replace(regex, `<${tag}></${tag}>`);
+            });
+            zip.file("meta.xml", meta);
+        }
+
         return await zip.generateAsync({ type: "nodebuffer" });
 
     } catch (e) {
-        return buffer;
+        console.error('cleanOfficeFile error:', e.message);
+        throw e; // Don't return original - throw error
     }
 };
 
@@ -397,7 +455,8 @@ const processFile = async (filePath, mimetype) => {
     else if (
         mimetype.includes('officedocument') ||
         mimetype.includes('msword') ||
-        mimetype.includes('vnd.openxmlformats')
+        mimetype.includes('vnd.openxmlformats') ||
+        mimetype.includes('opendocument') // OpenDocument: ODS, ODT, ODP
     ) {
         cleanedBuffer = await cleanOfficeFile(buffer);
     }
