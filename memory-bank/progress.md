@@ -150,6 +150,11 @@ The application is fully functional for its intended purpose: removing metadata 
 - Standardized file cleaning logic for all formats
 - Added OpenDocument support
 
+### Phase 8: Deployment Prep (January 24 2026)
+- Created release helper scripts (`release.sh`, `server_deploy.sh`)
+- Configured production Docker Compose (`docker-compose.prod.yml`) for on-server builds
+- Bumped version to v1.1.1
+
 ## Metrics
 
 | Metric | Value |

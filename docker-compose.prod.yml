@@ -1,0 +1,37 @@
+services:
+  app:
+    # Build from source on the server
+    build: .
+    container_name: kurdan_app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - BEHIND_PROXY=true
+      # Update these with your actual values via .env file or environment
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-https://kurdancleaner.com}
+      - FORCE_HTTPS=${FORCE_HTTPS:-true}
+    volumes:
+      - ./server/stats.json:/app/server/stats.json
+      # Don't mount source code in production to use the built assets
+    networks:
+      - kurdan_net
+
+  nginx:
+    image: nginx:alpine
+    container_name: kurdan_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - app
+    networks:
+      - kurdan_net
+
+networks:
+  kurdan_net:
+    driver: bridge

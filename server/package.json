@@ -1,6 +1,6 @@
 {
     "name": "metadata-remover-server",
-    "version": "1.0.0",
+    "version": "1.1.1",
     "description": "Server-side backend for Metadata Remover",
     "main": "index.js",
     "type": "module",
