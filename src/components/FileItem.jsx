@@ -5,6 +5,9 @@ import { saveAs } from 'file-saver';
 export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
     const { originalFile, status, uploadProgress = 0, error, cleanedBlob, cleanedName } = fileData;
 
+    // Cap visual progress at 99% until fully processed to prevent premature "completion" feeling
+    const visualProgress = status === 'uploading' && uploadProgress === 100 ? 99 : uploadProgress;
+
     const getSize = (bytes) => {
         if (bytes === 0) return '0 B';
         const k = 1024;
@@ -73,14 +76,14 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
             onClick={() => onSelect(fileData.id)}
             className={`
                 relative px-4 py-5 md:px-6 md:py-5 flex items-center gap-6 cursor-pointer transition-colors group overflow-hidden
-                ${isSelected ? 'bg-indigo-50/60 dark:bg-indigo-900/40' : (status === 'uploading' ? 'bg-indigo-100 dark:bg-indigo-900/50' : 'hover:bg-slate-50 dark:bg-slate-950/40 dark:hover:bg-slate-900/60')}
+                ${isSelected ? 'bg-indigo-50/60 dark:bg-indigo-900/40' : 'hover:bg-slate-50 dark:bg-slate-950/40 dark:hover:bg-slate-900/60'}
             `}
         >
-            {/* Upload Progress Bar (background - now acts as the "filled" white/slate part growing over orange) */}
-            {status === 'uploading' && (
+            {/* Upload Background (Orange) - Shrinks from Left to Right to reveal the underlying "done" state */}
+            {!isSelected && status === 'uploading' && (
                 <div
-                    className="absolute inset-y-0 left-0 bg-white dark:bg-slate-800 transition-all duration-300 ease-out z-0"
-                    style={{ width: `${uploadProgress}%` }}
+                    className="absolute inset-y-0 right-0 bg-indigo-100 dark:bg-indigo-900/50 z-0 transition-all duration-300 ease-out"
+                    style={{ width: `${100 - visualProgress}%` }}
                 />
             )}
             {/* File Icon with Progress Overlay */}
