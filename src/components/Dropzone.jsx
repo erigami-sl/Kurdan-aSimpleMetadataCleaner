@@ -50,7 +50,7 @@ export default function Dropzone({ onFilesAdded, onHoverChange, forceActive }) {
                     ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 dark:border-indigo-400 shadow-none scale-[0.99]'
                     : forceActive
                         ? 'border-indigo-400 dark:border-indigo-500 bg-white dark:bg-slate-800 shadow-none animate-none'
-                        : 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-white dark:hover:bg-slate-800 animate-box-glow-pulse hover:animate-none hover:shadow-none transition-shadow'
+                        : 'border-indigo-200 dark:border-indigo-400/20 bg-indigo-50/50 dark:bg-indigo-500/10 hover:border-indigo-400 dark:hover:border-indigo-400 hover:bg-white dark:hover:bg-[#253025] hover:shadow-lg transition-all duration-300'
                 }
             `}
             onDragEnter={handleDrag}

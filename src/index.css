@@ -3,35 +3,40 @@
 
 @theme {
   --font-sans: 'Inter', sans-serif;
-  --animate-glow-pulse: glow-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
-  @keyframes glow-pulse {
+  /* Palette: Expert UX Report (Stone, White, Dark Green/Black, Amber) */
 
-    0%,
-    100% {
-      text-shadow: 0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.1);
-      opacity: 0.9;
-    }
+  /* Override Slate (Neutrals) -> Stone Grey (Warm Grey) */
+  --color-slate-50: #FAFAF9;
+  /* Stone-50 (Main Light BG) */
+  --color-slate-100: #F5F5F4;
+  --color-slate-200: #E7E5E4;
+  --color-slate-300: #D6D3D1;
+  --color-slate-400: #A8A29E;
+  --color-slate-500: #78716C;
+  --color-slate-600: #57534E;
+  --color-slate-700: #44403C;
+  --color-slate-800: #292524;
+  /* Card Dark BG will be #253025 (mapped effectively or via custom class) */
+  /* Here we keep standard Stone scale for text/UI elements */
+  --color-slate-900: #1C1917;
+  /* Stone-900 (High Contrast Text) */
+  --color-slate-950: #0C0A09;
 
-    50% {
-      text-shadow: 0 0 25px rgba(129, 140, 248, 0.8), 0 0 50px rgba(99, 102, 241, 0.6), 0 0 90px rgba(99, 102, 241, 0.4);
-      opacity: 1;
-    }
-  }
-
-  --animate-box-glow-pulse: box-glow-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-
-  @keyframes box-glow-pulse {
-
-    0%,
-    100% {
-      box-shadow: 0 0 15px -3px rgba(99, 102, 241, 0.15);
-    }
-
-    50% {
-      box-shadow: 0 0 30px -5px rgba(99, 102, 241, 0.3);
-    }
-  }
+  /* Override Indigo (Primary) -> Amber (High Contrast Accent) */
+  --color-indigo-50: #FFFBEB;
+  --color-indigo-100: #FEF3C7;
+  --color-indigo-200: #FDE68A;
+  --color-indigo-300: #FCD34D;
+  --color-indigo-400: #FBBF24;
+  --color-indigo-500: #F59E0B;
+  /* Amber-500 (Primary Button) */
+  --color-indigo-600: #D97706;
+  /* Hover State */
+  --color-indigo-700: #B45309;
+  --color-indigo-800: #92400E;
+  --color-indigo-900: #78350F;
+  --color-indigo-950: #451A03;
 }
 
 
@@ -49,8 +54,8 @@
 
 /* Fallback / Explicit Force for v4 if variant fails */
 :root.dark body {
-  background-color: #0f172a;
-  /* slate-900 */
-  color: #e2e8f0;
-  /* slate-200 */
+  background-color: #1E301E;
+  /* Darker Green/Black (Increased green tint) */
+  color: #F5F5F4;
+  /* Stone-100 (Off White) */
 }

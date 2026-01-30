@@ -79,7 +79,7 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
             {/* Upload Progress Bar (background) */}
             {status === 'uploading' && (
                 <div
-                    className="absolute inset-y-0 left-0 bg-indigo-100 dark:bg-indigo-900/50 transition-all duration-300 ease-out"
+                    className="absolute inset-y-0 left-0 bg-indigo-300/50 dark:bg-indigo-500/30 transition-all duration-300 ease-out"
                     style={{ width: `${uploadProgress}%` }}
                 />
             )}

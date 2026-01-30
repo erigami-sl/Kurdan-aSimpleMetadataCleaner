@@ -16,13 +16,19 @@ export default function Home() {
     const [globalTotalCleaned, setGlobalTotalCleaned] = useState(0);
     const [isInteractionActive, setIsInteractionActive] = useState(false);
 
-    // Fetch global stats on mount
-    useEffect(() => {
+    // Fetch global stats on mount and poll every 10 seconds
+    const fetchStats = useCallback(() => {
         fetch('/api/stats')
             .then(res => res.json())
             .then(data => setGlobalTotalCleaned(data.totalCleaned || 0))
             .catch(() => { });
     }, []);
+
+    useEffect(() => {
+        fetchStats();
+        const interval = setInterval(fetchStats, 10000); // 10 seconds
+        return () => clearInterval(interval);
+    }, [fetchStats]);
 
     const handleFilesAdded = useCallback(async (newFiles) => {
         // Optimistic UI updates
@@ -207,6 +213,7 @@ export default function Home() {
         }));
 
         setGlobalStats(prev => ({ ...prev, cleaned: prev.cleaned + cleanedCount }));
+        setGlobalTotalCleaned(prev => prev + cleanedCount); // Optimistic update
         setIsProcessing(false);
     };
 
@@ -253,7 +260,7 @@ export default function Home() {
 
             {/* 2. File List Box & Actions */}
             {files.length > 0 && (
-                <section className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 mt-8">
+                <section className="bg-white dark:bg-[#253025] rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:shadow-none overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 mt-8">
                     <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50">
                         <div>
                             <h2 className="font-semibold text-slate-700 dark:text-slate-200 text-sm uppercase tracking-wider">{t('home.fileQueue')} ({files.length})</h2>
@@ -313,7 +320,7 @@ export default function Home() {
                                 onClick={processAll}
                                 disabled={isProcessing || pendingCount === 0 || uploadingCount > 0}
                                 className={`
-                  bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium shadow-sm transition-all flex items-center gap-2
+                  bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium shadow-sm transition-all flex items-center gap-2
                   ${(isProcessing || pendingCount === 0 || uploadingCount > 0) ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
                             >
@@ -329,7 +336,7 @@ export default function Home() {
             {globalTotalCleaned > 0 && (
                 <div className="w-full mt-auto pt-8 pb-20">
                     <p
-                        className={`text-lg md:text-xl font-bold text-center w-full transition-colors duration-300 cursor-default shadow-none ${isInteractionActive ? 'animate-none text-shadow-none text-indigo-500 dark:text-indigo-400' : 'text-slate-50 dark:text-slate-900 animate-glow-pulse'}`}
+                        className={`text-lg md:text-xl font-bold text-center w-full transition-colors duration-300 cursor-default shadow-none ${isInteractionActive ? 'text-shadow-none text-indigo-500 dark:text-indigo-400' : 'text-slate-50 dark:text-slate-900'}`}
                         onMouseEnter={() => setIsInteractionActive(true)}
                         onMouseLeave={() => setIsInteractionActive(false)}
                     >

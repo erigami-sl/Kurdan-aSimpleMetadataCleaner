@@ -41,10 +41,10 @@ COPY --chown=node:node server/index.js ./
 COPY --chown=node:node server/.env.example ./.env.example
 
 # 2. İZİNLER VE KLASÖRLER
-# Uploads klasörünü oluşturup node kullanıcısına yetki veriyoruz.
+# Uploads ve Data klasörünü oluşturup node kullanıcısına yetki veriyoruz.
 # Bunu yapmazsanız, uygulama dosya yazarken "Permission Denied" hatası alır.
-RUN mkdir -p uploads && \
-    echo '{"totalCleaned": 0, "lastUpdated": null}' > stats.json && \
+RUN mkdir -p uploads data && \
+    echo '{"totalCleaned": 0, "lastUpdated": null}' > data/stats.json && \
     chown -R node:node /app/server
 
 # Frontend build sonucunu al (sahiplik node kullanıcısında)

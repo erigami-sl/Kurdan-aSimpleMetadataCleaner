@@ -12,7 +12,7 @@ services:
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-https://kurdancleaner.com}
       - FORCE_HTTPS=${FORCE_HTTPS:-true}
     volumes:
-      - ./server/stats.json:/app/server/stats.json
+      - ./server/data:/app/server/data
       # Don't mount source code in production to use the built assets
     networks:
       - kurdan_net

@@ -29,7 +29,8 @@ lerna-debug.log*
 # Server - sensitive data
 server/uploads/*
 !server/uploads/.gitkeep
-server/stats.json
+server/data/*
+!server/data/.gitkeep
 # Ensure we don't ignore the empty stats file if we want to track the structure, 
 # but usually stats.json is runtime data.
 # If you want to keep a template, use stats.json.example

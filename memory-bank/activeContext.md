@@ -1,14 +1,16 @@
 # Active Context: Kürdan
 
 ## Current Work Focus
+Transitioned to **Local Node.js Development** environment for faster testing and iteration. Docker is now reserved strictly for production deployment.
 
-The project has completed **all security hardening phases** (Critical, High, Medium, Low). Documentation has been updated. The application is production-ready.
-
-## Recent Changes (January 9, 2026)
+## Recent Changes (January 30, 2026)
 
 ### Completed
-- **README.md Updated**: Comprehensive security documentation, environment variables table, production deployment guide
-- **Memory Bank Updated**: Synced with current project state
+- **Local Dev Transition**:
+  - Removed `docker-compose.dev.yml`
+  - Configured `concurrently` for single-command dev start (`npm run dev:all`)
+  - Updated `.gitignore`
+- **Security**: Hardening phases completed previously.
 
 ### Security Fixes Implemented
 - **Path Traversal Protection**: UUID validation + path.resolve checks
@@ -21,6 +23,15 @@ The project has completed **all security hardening phases** (Critical, High, Med
 - **Global Error Handler**: Multer errors + production mode
 - **Environment Variables**: dotenv support
 - UI refinements and bug fixes
+- **Design Overhaul (Expert Refinement)**: 
+  - **Light Mode**: Stone-50 specific background, White Cards, Amber-tinted Dropzone, Elevated Shadows
+  - **Dark Mode**: High Contrast (Amber Buttons), Dark Green/Black BG (#1A201A), Border-based separation
+  - **Color Swap**: Swapped Button (Green/Safe) and Progress Bar (Amber/Processing) colors for semantic clarity
+  - **Accessibility**: Improved contrast ratios (WCAG AA), Reduced visual vibration
+  - **Primary Color**: Reverted to Amber/Orange (#F59E0B) for high visibility on dark backgrounds
+- **Real-time Stats**: Polling (10s) + Optimistic UI updates
+- **Backend Fix**: Solved race condition in stats counting (switched to sync writes)
+- Removed "breathing" animations completely to resolve mobile performance issues
 - Download filename fix ensuring correct original filenames
 - Addition of UI hint instructing users to click files to view metadata
 - Migration from client-side to server-side architecture

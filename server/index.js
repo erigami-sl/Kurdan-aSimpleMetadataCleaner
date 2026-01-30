@@ -21,7 +21,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
-const STATS_FILE = path.join(__dirname, 'stats.json');
+const DATA_DIR = path.join(__dirname, 'data');
+const STATS_FILE = path.join(DATA_DIR, 'stats.json');
 
 // -- Stats Counter (Privacy-Safe) --
 const loadStats = () => {
@@ -35,24 +36,25 @@ const loadStats = () => {
     return { totalCleaned: 0, lastUpdated: null };
 };
 
-const saveStats = async (stats) => {
+const saveStats = (stats) => {
     try {
-        await writeFileAtomic(STATS_FILE, JSON.stringify(stats, null, 2));
+        writeFileAtomic.sync(STATS_FILE, JSON.stringify(stats, null, 2));
     } catch (e) {
         // Failed to save stats silently
     }
 };
 
-const incrementCleanedCount = async () => {
+const incrementCleanedCount = () => {
     const stats = loadStats();
     stats.totalCleaned += 1;
     stats.lastUpdated = new Date().toISOString();
-    await saveStats(stats);
+    saveStats(stats);
     return stats.totalCleaned;
 };
 
-// Ensure upload directory exists
+// Ensure directories exist
 fs.ensureDirSync(UPLOAD_DIR);
+fs.ensureDirSync(DATA_DIR);
 
 // === CORS YAPILANDIRMASI ===
 const corsOptions = {
@@ -575,7 +577,7 @@ app.get('/api/clean/:id', async (req, res) => {
         const finalPath = await processFile(filePath, mimeType);
 
         // Increment counter on successful processing
-        await incrementCleanedCount();
+        incrementCleanedCount();
 
         // Download the cleaned file
         res.download(finalPath, downloadName, (err) => {

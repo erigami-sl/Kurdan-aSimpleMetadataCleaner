@@ -3,6 +3,7 @@
 ## What Works
 
 ### Core Features ✅
+- [x] Local Development Environment (Node.js + Concurrently)
 - [x] File upload via drag-and-drop
 - [x] File upload via click/browse
 - [x] File paste via Ctrl+V
@@ -149,6 +150,7 @@ The application is fully functional for its intended purpose: removing metadata 
 - Implemented hover interactions for Dropzone (retracting glow)
 - Standardized file cleaning logic for all formats
 - Added OpenDocument support
+- Optimized animations for mobile performance (replaced heavy shadows with lightweight opacity/scale)
 
 ### Phase 8: Deployment Prep (January 24 2026)
 - Created release helper scripts (`release.sh`, `server_deploy.sh`)
