@@ -1,5 +1,7 @@
 # Defaults
 node_modules
+/node_modules
+server/node_modules
 dist
 dist-ssr
 *.local
