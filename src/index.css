@@ -2,60 +2,62 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
+    --font-sans: 'Inter', sans-serif;
 
-  /* Palette: Expert UX Report (Stone, White, Dark Green/Black, Amber) */
+    /* Palette: https://colorhunt.co/palette/eaefefbfc9d125343fff9b51 */
+    /* Main Dark: #25343F */
+    /* Secondary Grey: #BFC9D1 */
+    /* Lightest: #EAEFEF */
+    /* Accent Orange: #FF9B51 */
 
-  /* Override Slate (Neutrals) -> Stone Grey (Warm Grey) */
-  --color-slate-50: #FAFAF9;
-  /* Stone-50 (Main Light BG) */
-  --color-slate-100: #F5F5F4;
-  --color-slate-200: #E7E5E4;
-  --color-slate-300: #D6D3D1;
-  --color-slate-400: #A8A29E;
-  --color-slate-500: #78716C;
-  --color-slate-600: #57534E;
-  --color-slate-700: #44403C;
-  --color-slate-800: #292524;
-  /* Card Dark BG will be #253025 (mapped effectively or via custom class) */
-  /* Here we keep standard Stone scale for text/UI elements */
-  --color-slate-900: #1C1917;
-  /* Stone-900 (High Contrast Text) */
-  --color-slate-950: #0C0A09;
+    /* Override Slate (Neutral) with Palette Greys/Blues */
+    --color-slate-50: #EAEFEF;
+    /* Palette Lightest */
+    --color-slate-100: #DBE2E5;
+    --color-slate-200: #CAD5DB;
+    --color-slate-300: #BFC9D1;
+    /* Palette Secondary */
+    --color-slate-400: #96A6B4;
+    --color-slate-500: #6D8292;
+    --color-slate-600: #4D6070;
+    --color-slate-700: #364958;
+    --color-slate-800: #25343F;
+    /* Palette Dark */
+    --color-slate-900: #1B262E;
+    --color-slate-950: #10171C;
 
-  /* Override Indigo (Primary) -> Amber (High Contrast Accent) */
-  --color-indigo-50: #FFFBEB;
-  --color-indigo-100: #FEF3C7;
-  --color-indigo-200: #FDE68A;
-  --color-indigo-300: #FCD34D;
-  --color-indigo-400: #FBBF24;
-  --color-indigo-500: #F59E0B;
-  /* Amber-500 (Primary Button) */
-  --color-indigo-600: #D97706;
-  /* Hover State */
-  --color-indigo-700: #B45309;
-  --color-indigo-800: #92400E;
-  --color-indigo-900: #78350F;
-  --color-indigo-950: #451A03;
+    /* Override Indigo (Brand) with Palette Orange */
+    --color-indigo-50: #FFF5EB;
+    --color-indigo-100: #FFE6CC;
+    --color-indigo-200: #FFD4A8;
+    --color-indigo-300: #FFC285;
+    --color-indigo-400: #FFB062;
+    --color-indigo-500: #FF9B51;
+    /* Palette Orange */
+    --color-indigo-600: #E6823C;
+    --color-indigo-700: #CC6928;
+    --color-indigo-800: #A8521E;
+    --color-indigo-900: #853F16;
+    --color-indigo-950: #451F0A;
 }
 
 
 @utility text-shadow-none {
-  text-shadow: none;
+    text-shadow: none;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  body {
-    @apply bg-slate-50 text-slate-800 font-sans antialiased;
-  }
+    body {
+        @apply bg-slate-50 text-slate-800 font-sans antialiased;
+    }
 }
 
 /* Fallback / Explicit Force for v4 if variant fails */
 :root.dark body {
-  background-color: #1E301E;
-  /* Darker Green/Black (Increased green tint) */
-  color: #F5F5F4;
-  /* Stone-100 (Off White) */
+    background-color: #25343F;
+    /* Palette Dark */
+    color: #EAEFEF;
+    /* Palette Lightest */
 }

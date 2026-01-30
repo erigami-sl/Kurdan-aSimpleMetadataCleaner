@@ -73,13 +73,13 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
             onClick={() => onSelect(fileData.id)}
             className={`
                 relative px-4 py-5 md:px-6 md:py-5 flex items-center gap-6 cursor-pointer transition-colors group overflow-hidden
-                ${isSelected ? 'bg-indigo-50/60 dark:bg-indigo-900/40' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'}
+                ${isSelected ? 'bg-indigo-50/60 dark:bg-indigo-900/40' : 'hover:bg-slate-50 dark:bg-slate-950/40 dark:hover:bg-slate-900/60'}
             `}
         >
             {/* Upload Progress Bar (background) */}
             {status === 'uploading' && (
                 <div
-                    className="absolute inset-y-0 left-0 bg-indigo-300/50 dark:bg-indigo-500/30 transition-all duration-300 ease-out"
+                    className="absolute inset-y-0 left-0 bg-indigo-100 dark:bg-indigo-900/50 transition-all duration-300 ease-out"
                     style={{ width: `${uploadProgress}%` }}
                 />
             )}
