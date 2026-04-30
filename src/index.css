@@ -1,63 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* ============================================================
+   KÜRDAN — Design Tokens
+   Premium Editorial + Soft Organic Modernism
+   ============================================================ */
+
 @theme {
-    --font-sans: 'Inter', sans-serif;
+    /* --- Typography --- */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Cormorant Garamond', 'Georgia', 'Times New Roman', serif;
 
-    /* Palette: https://colorhunt.co/palette/eaefefbfc9d125343fff9b51 */
-    /* Main Dark: #25343F */
-    /* Secondary Grey: #BFC9D1 */
-    /* Lightest: #EAEFEF */
-    /* Accent Orange: #FF9B51 */
+    /* --- Cream Palette (Backgrounds) --- */
+    --color-cream-50: #F6F4EF;
+    --color-cream-100: #F4F1EC;
+    --color-cream-200: #EFECE6;
+    --color-cream-300: #E8E3DB;
+    --color-cream-400: #DDD7CC;
+    --color-cream-500: #CFC7B8;
 
-    /* Override Slate (Neutral) with Palette Greys/Blues */
-    --color-slate-50: #EAEFEF;
-    /* Palette Lightest */
-    --color-slate-100: #DBE2E5;
-    --color-slate-200: #CAD5DB;
-    --color-slate-300: #BFC9D1;
-    /* Palette Secondary */
-    --color-slate-400: #96A6B4;
-    --color-slate-500: #6D8292;
-    --color-slate-600: #4D6070;
-    --color-slate-700: #364958;
-    --color-slate-800: #25343F;
-    /* Palette Dark */
-    --color-slate-900: #1B262E;
-    --color-slate-950: #10171C;
+    /* --- Ink Palette (Text / Dark tones) --- */
+    --color-ink-50: #E8E3DB;
+    --color-ink-100: #C5C0B6;
+    --color-ink-200: #8A8579;
+    --color-ink-300: #5C5A50;
+    --color-ink-400: #3A3F34;
+    --color-ink-500: #2D3530;
+    --color-ink-600: #243126;
+    --color-ink-700: #1F2B22;
+    --color-ink-800: #1B261E;
+    --color-ink-900: #141D16;
+    --color-ink-950: #0D130F;
 
-    /* Override Indigo (Brand) with Palette Orange */
-    --color-indigo-50: #FFF5EB;
-    --color-indigo-100: #FFE6CC;
-    --color-indigo-200: #FFD4A8;
-    --color-indigo-300: #FFC285;
-    --color-indigo-400: #FFB062;
-    --color-indigo-500: #FF9B51;
-    /* Palette Orange */
-    --color-indigo-600: #E6823C;
-    --color-indigo-700: #CC6928;
-    --color-indigo-800: #A8521E;
-    --color-indigo-900: #853F16;
-    --color-indigo-950: #451F0A;
+    /* --- Sage Palette (Accent / Brand) --- */
+    --color-sage-50: #F0F2EE;
+    --color-sage-100: #E2E6DE;
+    --color-sage-200: #C8CFBF;
+    --color-sage-300: #ABB5A0;
+    --color-sage-400: #98A88E;
+    --color-sage-500: #88927E;
+    --color-sage-600: #75856B;
+    --color-sage-700: #5F6E56;
+    --color-sage-800: #4A5743;
+    --color-sage-900: #374032;
+
+    /* --- Muted Palette (Secondary text) --- */
+    --color-muted-300: #A5A39C;
+    --color-muted-400: #8D8B84;
+    --color-muted-500: #7B7B76;
+    --color-muted-600: #65655F;
+
+    /* --- Semantic: Success / Error (kept for functional states) --- */
+    --color-success-500: #5A7D5A;
+    --color-success-600: #4A6B4A;
+    --color-error-400: #C97070;
+    --color-error-500: #B85C5C;
+    --color-error-600: #9E4A4A;
+
+    /* --- Dark Mode Palette --- */
+    --color-dark-bg: #1B1F1C;
+    --color-dark-card: #242A26;
+    --color-dark-border: #3A4238;
+    --color-dark-text: #E8E3DB;
+    --color-dark-muted: #8A8579;
+    --color-dark-sage: #98A88E;
+
+    /* --- Shadows --- */
+    --shadow-organic: 0 20px 60px rgba(0, 0, 0, 0.05);
+    --shadow-organic-lg: 0 30px 80px rgba(0, 0, 0, 0.07);
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.06);
+
+    /* --- Radius --- */
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
+    --radius-organic: 40px;
 }
 
+/* --- Utilities --- */
+@utility shadow-organic {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
+}
+
+@utility shadow-organic-lg {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.07);
+}
+
+@utility shadow-card {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+@utility shadow-hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
 
 @utility text-shadow-none {
     text-shadow: none;
 }
 
+/* --- Dark mode variant --- */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* --- Base layer --- */
 @layer base {
     body {
-        @apply bg-slate-50 text-slate-800 font-sans antialiased;
+        @apply bg-cream-50 text-ink-700 font-sans antialiased;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    ::selection {
+        background-color: rgba(117, 133, 107, 0.2);
+        color: #1F2B22;
     }
 }
 
-/* Fallback / Explicit Force for v4 if variant fails */
+/* --- Dark mode base --- */
 :root.dark body {
-    background-color: #25343F;
-    /* Palette Dark */
-    color: #EAEFEF;
-    /* Palette Lightest */
+    background-color: var(--color-dark-bg);
+    color: var(--color-dark-text);
+}
+
+/* --- Custom scrollbar --- */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-cream-400);
+    border-radius: 3px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-dark-border);
 }

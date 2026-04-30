@@ -1,6 +1,5 @@
 import React from 'react';
 import { X, AlertCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 export default function SupportModal({ isOpen, onClose }) {
