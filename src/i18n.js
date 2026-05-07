@@ -58,6 +58,10 @@ const resources = {
                 "globalStatsSuffix": "files cleaned with Kürdan so far"
             },
             "footer": {
+                "description": "Kürdan is an open-source tool designed to remove hidden metadata from your files, ensuring your privacy remains intact.",
+                "usefulLinks": "Useful Links",
+                "privacyCardTitle": "100% Server Privacy",
+                "privacyCardDesc": "We do not store your files. Everything is processed in memory and immediately deleted after completion.",
                 "privacy": "Privacy Policy",
                 "terms": "Terms of Service",
                 "license": "MIT License",
@@ -209,6 +213,10 @@ const resources = {
                 "globalStatsSuffix": "dosya Kürdan'la temizlendi"
             },
             "footer": {
+                "description": "Kürdan, dosyalarınızdaki gizli metadataları temizleyerek gizliliğinizi koruyan açık kaynaklı bir araçtır.",
+                "usefulLinks": "Faydalı Bağlantılar",
+                "privacyCardTitle": "%100 Sunucu Gizliliği",
+                "privacyCardDesc": "Dosyalarınızı asla saklamıyoruz. Her şey geçici bellekte işlenir ve biter bitmez kalıcı olarak silinir.",
                 "privacy": "Gizlilik Politikası",
                 "terms": "Kullanım Koşulları",
                 "license": "MIT Lisansı",
