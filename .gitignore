@@ -31,6 +31,9 @@ server/uploads/*
 !server/uploads/.gitkeep
 server/data/*
 !server/data/.gitkeep
+docker-compose.prod.yml
+docker-compose.yml
+
 # Ensure we don't ignore the empty stats file if we want to track the structure, 
 # but usually stats.json is runtime data.
 server/stats.json

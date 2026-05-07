@@ -31,7 +31,9 @@ services:
       - app
     networks:
       - kurdan_net
-
+      - ortak-ag
 networks:
   kurdan_net:
     driver: bridge
+  ortak-ag:
+    external: true
