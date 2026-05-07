@@ -157,6 +157,15 @@ The application is fully functional for its intended purpose: removing metadata 
 - Configured production Docker Compose (`docker-compose.prod.yml`) for on-server builds
 - Bumped version to v1.1.1
 
+### Phase 9: UI/UX Premium Redesign (May 2026)
+- Completely overhauled the design language to "Soft Organic Modernism".
+- Replaced standard Tailwind color palettes with semantic `cream/ink/sage` tokens.
+- Introduced `Cormorant Garamond` for editorial serif typography.
+- Built a 2-column Hero section with pill badges and organic background blobs.
+- Redesigned Dropzone into a premium card layout.
+- Added `StatsCard` and `HowItWorks` components for better landing page engagement.
+- Refined all secondary pages and interaction states (File Queue, Metadata Viewer).
+
 ## Metrics
 
 | Metric | Value |

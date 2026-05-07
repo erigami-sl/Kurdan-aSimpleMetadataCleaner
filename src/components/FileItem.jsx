@@ -42,7 +42,7 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
 
         // Plain text files - Using slate for neutral appearance
         if (/\.(txt|rtf|md|markdown)$/.test(name)) {
-            return <FileText className="w-5 h-5 text-slate-600 dark:text-slate-300" />;
+            return <FileText className="w-5 h-5 text-muted-600 dark:text-muted-400" />;
         }
 
         // PowerPoint / Presentations - Using amber/orange (traditional PowerPoint color)
@@ -61,7 +61,7 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
         }
 
         // Default - Generic file icon with neutral color
-        return <File className="w-5 h-5 text-slate-500 dark:text-slate-400" />;
+        return <File className="w-5 h-5 text-muted-500 dark:text-muted-400" />;
     };
 
     const handleDownload = (e) => {
