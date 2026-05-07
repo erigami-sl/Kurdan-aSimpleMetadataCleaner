@@ -16,7 +16,16 @@ const resources = {
                 "heroHeadlineLine1": "Clean Metadata.",
                 "heroHeadlineLine2": "Protect What ",
                 "heroHeadlineMatters": "Matters.",
-                "heroDesc": "Kürdan removes hidden metadata from your files so you can share with confidence."
+                "heroDesc": "Kürdan removes hidden metadata from your files so you can share with confidence.",
+                "statsTrustedBy": "Trusted by privacy conscious people",
+                "howItWorks": "How It Works",
+                "howItWorksTitle": "Simple. Private. Powerful.",
+                "step1Title": "1. Upload",
+                "step1Desc": "Drag & drop your files or select them.",
+                "step2Title": "2. We Clean",
+                "step2Desc": "We remove hidden metadata in seconds.",
+                "step3Title": "3. Download",
+                "step3Desc": "Get clean files, ready to share."
             },
             "home": {
                 "dropzoneTitle": "Drag & drop files here",
@@ -155,7 +164,16 @@ const resources = {
                 "heroHeadlineLine1": "Metadataları Temizle.",
                 "heroHeadlineLine2": "Önemli Olanı ",
                 "heroHeadlineMatters": "Koru.",
-                "heroDesc": "Kürdan dosyalarınızdaki gizli metadataları siler, böylece güvenle paylaşabilirsiniz."
+                "heroDesc": "Kürdan dosyalarınızdaki gizli metadataları siler, böylece güvenle paylaşabilirsiniz.",
+                "statsTrustedBy": "Gizliliğe önem verenler tarafından güveniliyor",
+                "howItWorks": "Nasıl Çalışır?",
+                "howItWorksTitle": "Basit. Özel. Güçlü.",
+                "step1Title": "1. Yükle",
+                "step1Desc": "Dosyalarınızı sürükleyin veya seçin.",
+                "step2Title": "2. Temizleyelim",
+                "step2Desc": "Gizli metadataları saniyeler içinde silelim.",
+                "step3Title": "3. İndir",
+                "step3Desc": "Temizlenmiş dosyalarınızı indirin."
             },
             "home": {
                 "dropzoneTitle": "Dosyaları buraya sürükleyin",

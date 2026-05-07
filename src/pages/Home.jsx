@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import Dropzone from '../components/Dropzone';
 import FileItem from '../components/FileItem';
 import MetadataViewer from '../components/MetadataViewer';
+import StatsCard from '../components/StatsCard';
+import HowItWorks from '../components/HowItWorks';
 
 export default function Home() {
     const { t } = useTranslation();
@@ -293,6 +295,9 @@ export default function Home() {
 
                 {/* Right Column: Upload Card */}
                 <div className="flex-1 w-full flex justify-center lg:justify-end relative">
+                    {/* Botanical Leaf Decoration */}
+                    <img src="/botanical_leaf.png" alt="" className="absolute -right-16 top-[-100px] md:-right-32 md:top-[-150px] w-[500px] h-[800px] object-cover opacity-30 dark:opacity-10 pointer-events-none -z-20 mix-blend-multiply dark:mix-blend-lighten" />
+
                     {/* Subtle glow behind card */}
                     <div className="absolute inset-0 bg-sage-50/50 dark:bg-sage-900/10 blur-2xl rounded-full scale-90 pointer-events-none -z-10" />
                     
@@ -304,7 +309,11 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* 2. File List Box & Actions */}
+            {/* 2. Stats & How It Works */}
+            <StatsCard totalCleaned={globalTotalCleaned} />
+            <HowItWorks />
+
+            {/* 3. File List Box & Actions */}
             {files.length > 0 && (
                 <section className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 mt-8">
                     <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50">
@@ -376,19 +385,6 @@ export default function Home() {
                         )}
                     </div>
                 </section>
-            )}
-
-            {/* Global Stats Counter - Always visible, near footer */}
-            {globalTotalCleaned > 0 && (
-                <div className="w-full mt-auto pt-8 pb-20">
-                    <p
-                        className={`text-lg md:text-xl font-bold text-center w-full transition-colors duration-300 cursor-default shadow-none ${isInteractionActive ? 'text-shadow-none text-indigo-500 dark:text-indigo-400' : 'text-slate-50 dark:text-slate-900'}`}
-                        onMouseEnter={() => setIsInteractionActive(true)}
-                        onMouseLeave={() => setIsInteractionActive(false)}
-                    >
-                        {t('home.globalStatsPrefix')}{t('home.globalStatsPrefix') && ' '}{globalTotalCleaned.toLocaleString()} {t('home.globalStatsSuffix')}
-                    </p>
-                </div>
             )}
         </>
     );
