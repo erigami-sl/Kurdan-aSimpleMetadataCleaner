@@ -247,13 +247,13 @@ export default function Home() {
             {/* 1. Hero Section (2-Column) */}
             <section className="w-full flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8 mb-20 relative">
                 
-                {/* Decorative background blob */}
-                <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/4 w-[600px] h-[600px] bg-sage-100/40 dark:bg-sage-900/10 rounded-full blur-3xl pointer-events-none -z-10" />
+                {/* Atmospheric Depth (No heavy blur) */}
+                <div className="absolute top-0 left-0 w-full h-[800px] bg-atmosphere-sage pointer-events-none -z-10" />
 
                 {/* Left Column: Editorial Messaging */}
                 <div className="flex-1 max-w-xl w-full">
                     {/* Feature Pills (Moved to top) */}
-                    <div className="flex flex-wrap items-center gap-3 mb-8">
+                    <div className="flex flex-wrap items-center gap-3 mb-8 animate-fade-up-editorial delay-40 will-change-transform contain-paint">
                         <div className="inline-flex items-center gap-1.5 bg-cream-200/60 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] rounded-full px-3 py-1 text-xs font-medium text-ink-700 dark:text-cream-100 shadow-sm">
                             <EyeOff className="w-3.5 h-3.5 text-sage-600 dark:text-sage-400" />
                             {t('app.noLogs')}
@@ -269,14 +269,14 @@ export default function Home() {
                     </div>
 
                     {/* Headline */}
-                    <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl font-light leading-[0.95] text-ink-900 dark:text-cream-50 mb-6 tracking-tight">
+                    <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl font-light leading-[0.95] text-ink-900 dark:text-cream-50 mb-6 tracking-tight animate-fade-up-editorial delay-80 will-change-transform contain-paint">
                         {t('app.heroHeadlineLine1')} <br />
                         {t('app.heroHeadlineLine2')}
                         <span className="text-sage-600 dark:text-sage-400 italic font-medium">{t('app.heroHeadlineMatters')}</span>
                     </h1>
 
                     {/* Description */}
-                    <p className="text-lg md:text-xl text-muted-500 dark:text-muted-400 leading-relaxed mb-12 max-w-[480px]">
+                    <p className="text-lg md:text-xl text-muted-500 dark:text-muted-400 leading-relaxed mb-12 max-w-[480px] animate-fade-up-editorial delay-120 will-change-transform contain-paint">
                         {t('app.heroDesc')}
                     </p>
 
@@ -284,12 +284,12 @@ export default function Home() {
                 </div>
 
                 {/* Right Column: Upload Card */}
-                <div className="flex-1 w-full flex justify-center lg:justify-end relative">
+                <div className="flex-1 w-full flex justify-center lg:justify-end relative animate-fade-up-editorial delay-160 will-change-transform">
                     {/* Botanical Leaf Decoration */}
                     <img src="/botanical_leaf.png" alt="" className="absolute -right-16 top-[-100px] md:-right-32 md:top-[-150px] w-[500px] h-[800px] object-cover opacity-30 dark:opacity-10 pointer-events-none -z-20 mix-blend-multiply dark:mix-blend-lighten" />
 
-                    {/* Subtle glow behind card */}
-                    <div className="absolute inset-0 bg-sage-50/50 dark:bg-sage-900/10 blur-2xl rounded-full scale-90 pointer-events-none -z-10" />
+                    {/* Atmospheric Glow */}
+                    <div className="absolute inset-0 bg-atmosphere-glow pointer-events-none -z-10" />
                     
                     <Dropzone
                         onFilesAdded={handleFilesAdded}

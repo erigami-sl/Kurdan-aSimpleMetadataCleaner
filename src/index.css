@@ -142,3 +142,91 @@
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: var(--color-dark-border);
 }
+
+/* ============================================================
+   EDITORIAL ANIMATIONS & DEPTH (Phase 1)
+   ============================================================ */
+
+/* --- Base Transitions --- */
+@utility transition-editorial {
+    transition-property: opacity, transform, border-color, background-color, color;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-duration: 320ms;
+}
+
+@utility transition-editorial-hover {
+    transition-property: opacity, transform, border-color, background-color, color;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-duration: 240ms;
+}
+
+/* --- Hero Fade Up (Scale + TranslateY) --- */
+@keyframes fade-up-editorial {
+    0% { opacity: 0; transform: translateY(10px) scale(0.92); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@utility animate-fade-up-editorial {
+    animation: fade-up-editorial 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* --- Scroll Fade Up (TranslateY only) --- */
+@keyframes fade-up-scroll {
+    0% { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@utility animate-fade-up-scroll {
+    animation: fade-up-scroll 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Delay modifiers (40ms steps) */
+@utility delay-40 { animation-delay: 40ms; }
+@utility delay-80 { animation-delay: 80ms; }
+@utility delay-120 { animation-delay: 120ms; }
+@utility delay-160 { animation-delay: 160ms; }
+@utility delay-200 { animation-delay: 200ms; }
+@utility delay-240 { animation-delay: 240ms; }
+
+/* --- Upload Dropzone Styling --- */
+@utility dropzone-editorial {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(140, 150, 130, 0.18);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02), 0 12px 40px rgba(120, 130, 110, 0.05);
+    transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    
+    &:hover {
+        transform: translateY(-2px);
+    }
+}
+.dark .dropzone-editorial {
+    background: rgba(36, 42, 38, 0.72);
+    border: 1px solid rgba(152, 168, 142, 0.15);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Atmospheric Gradients (No Blur) --- */
+@utility bg-atmosphere-sage {
+    background: radial-gradient(circle at top right, rgba(150, 170, 140, 0.08), transparent 45%);
+}
+.dark .bg-atmosphere-sage {
+    background: radial-gradient(circle at top right, rgba(152, 168, 142, 0.05), transparent 45%);
+}
+
+@utility bg-atmosphere-glow {
+    background: radial-gradient(circle at top right, rgba(240, 242, 238, 0.4), transparent 50%);
+}
+.dark .bg-atmosphere-glow {
+    background: radial-gradient(circle at top right, rgba(55, 64, 50, 0.1), transparent 50%);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        transform: none !important;
+    }
+}

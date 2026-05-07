@@ -43,15 +43,11 @@ export default function Dropzone({ onFilesAdded, onHoverChange, forceActive }) {
     return (
         <div
             className={`
-                relative group transition-all duration-300 ease-out cursor-pointer
+                relative group cursor-pointer dropzone-editorial
                 w-full md:w-[520px] aspect-square max-h-[540px]
-                rounded-[var(--radius-lg)] bg-white dark:bg-[var(--color-dark-card)]
+                rounded-[var(--radius-lg)]
                 flex flex-col items-center justify-center p-8 text-center
-                border border-cream-300 dark:border-[var(--color-dark-border)]
-                ${isActive 
-                    ? 'shadow-organic-lg scale-[1.01] border-sage-300 dark:border-sage-600 ring-4 ring-sage-50 dark:ring-sage-900/30' 
-                    : 'shadow-organic hover:shadow-organic-lg hover:-translate-y-1 hover:border-cream-400 dark:hover:border-sage-800'
-                }
+                ${isActive ? 'border-sage-300 dark:border-sage-600' : ''}
             `}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
@@ -72,7 +68,7 @@ export default function Dropzone({ onFilesAdded, onHoverChange, forceActive }) {
 
             {/* Premium Icon Container */}
             <div className={`
-                w-20 h-20 rounded-full flex items-center justify-center mb-8 transition-colors duration-300
+                w-20 h-20 rounded-full flex items-center justify-center mb-8 transition-editorial
                 ${isActive 
                     ? 'bg-sage-100 text-sage-600 dark:bg-sage-900/50 dark:text-sage-300' 
                     : 'bg-cream-100 text-sage-600 dark:bg-[var(--color-dark-border)] dark:text-sage-400 group-hover:bg-cream-200 dark:group-hover:bg-sage-900/30'
@@ -89,12 +85,9 @@ export default function Dropzone({ onFilesAdded, onHoverChange, forceActive }) {
                 {t('home.dropzoneNote')}
             </p>
 
-            <button className="bg-sage-600 hover:bg-sage-700 text-white dark:bg-sage-500 dark:hover:bg-sage-400 dark:text-ink-900 px-8 py-3.5 rounded-2xl text-sm font-medium transition-colors shadow-sm w-[200px]">
+            <button className="bg-sage-600 hover:bg-sage-700 text-white dark:bg-sage-500 dark:hover:bg-sage-400 dark:text-ink-900 px-8 py-3.5 rounded-2xl text-sm font-medium transition-editorial-hover shadow-sm w-[200px]">
                 {t('home.dropzoneSubtitle')}
             </button>
-            
-            {/* Soft decorative background gradient inside card */}
-            <div className="absolute inset-0 rounded-[var(--radius-lg)] bg-gradient-to-br from-cream-50/50 to-transparent dark:from-white/5 pointer-events-none" />
         </div>
     );
 }
