@@ -259,7 +259,7 @@ export default function Home() {
                     </div>
 
                     {/* Headline */}
-                    <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl font-light leading-[1.1] text-ink-900 dark:text-cream-50 mb-6">
+                    <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl font-light leading-[0.95] text-ink-900 dark:text-cream-50 mb-6 tracking-tight">
                         {t('app.heroHeadlineLine1')} <br />
                         {t('app.heroHeadlineLine2')}
                         <span className="text-sage-600 dark:text-sage-400 italic font-medium">{t('app.heroHeadlineMatters')}</span>
