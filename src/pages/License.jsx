@@ -5,10 +5,10 @@ export default function License() {
     const { t } = useTranslation();
 
     return (
-        <div className="max-w-3xl mx-auto space-y-6">
-            <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">{t('license.title')}</h1>
+        <div className="max-w-3xl mx-auto space-y-8 py-8">
+            <h1 className="text-4xl font-serif text-ink-900 dark:text-cream-50 font-medium">{t('license.title')}</h1>
 
-            <div className="bg-slate-100 dark:bg-slate-800 p-6 rounded-lg font-mono text-sm text-slate-700 dark:text-slate-300 overflow-x-auto whitespace-pre-wrap">
+            <div className="bg-cream-100 dark:bg-[var(--color-dark-card)] p-8 rounded-[var(--radius-md)] border border-cream-300 dark:border-[var(--color-dark-border)] shadow-sm font-mono text-sm text-muted-600 dark:text-muted-300 overflow-x-auto whitespace-pre-wrap leading-relaxed">
                 {`MIT License
 
 Copyright (c) 2025 Kürdan
