@@ -252,10 +252,20 @@ export default function Home() {
 
                 {/* Left Column: Editorial Messaging */}
                 <div className="flex-1 max-w-xl w-full">
-                    {/* Badge */}
-                    <div className="inline-flex items-center gap-2 bg-cream-200 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ink-700 dark:text-cream-50 mb-8">
-                        <Leaf className="w-3.5 h-3.5 text-sage-600 dark:text-sage-400" />
-                        {t('app.badge')}
+                    {/* Feature Pills (Moved to top) */}
+                    <div className="flex flex-wrap items-center gap-3 mb-8">
+                        <div className="inline-flex items-center gap-1.5 bg-cream-200/60 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] rounded-full px-3 py-1 text-xs font-medium text-ink-700 dark:text-cream-100 shadow-sm">
+                            <EyeOff className="w-3.5 h-3.5 text-sage-600 dark:text-sage-400" />
+                            {t('app.noLogs')}
+                        </div>
+                        <div className="inline-flex items-center gap-1.5 bg-cream-200/60 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] rounded-full px-3 py-1 text-xs font-medium text-ink-700 dark:text-cream-100 shadow-sm">
+                            <Zap className="w-3.5 h-3.5 text-sage-600 dark:text-sage-400" />
+                            {t('app.fastProcessing')}
+                        </div>
+                        <div className="inline-flex items-center gap-1.5 bg-cream-200/60 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] rounded-full px-3 py-1 text-xs font-medium text-ink-700 dark:text-cream-100 shadow-sm">
+                            <CloudUpload className="w-3.5 h-3.5 text-sage-600 dark:text-sage-400" />
+                            {t('app.cloudPowered')}
+                        </div>
                     </div>
 
                     {/* Headline */}
@@ -270,27 +280,7 @@ export default function Home() {
                         {t('app.heroDesc')}
                     </p>
 
-                    {/* Feature Row */}
-                    <div className="flex flex-wrap items-center gap-8">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] flex items-center justify-center text-ink-700 dark:text-cream-50">
-                                <EyeOff className="w-4 h-4" />
-                            </div>
-                            <span className="text-sm font-medium text-ink-700 dark:text-cream-50">{t('app.noLogs')}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] flex items-center justify-center text-ink-700 dark:text-cream-50">
-                                <Zap className="w-4 h-4" />
-                            </div>
-                            <span className="text-sm font-medium text-ink-700 dark:text-cream-50">{t('app.fastProcessing')}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] flex items-center justify-center text-ink-700 dark:text-cream-50">
-                                <CloudUpload className="w-4 h-4" />
-                            </div>
-                            <span className="text-sm font-medium text-ink-700 dark:text-cream-50">{t('app.cloudPowered')}</span>
-                        </div>
-                    </div>
+
                 </div>
 
                 {/* Right Column: Upload Card */}
