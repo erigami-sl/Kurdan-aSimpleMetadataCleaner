@@ -286,7 +286,7 @@ export default function Home() {
                 {/* Right Column: Upload Card */}
                 <div className="flex-1 w-full flex justify-center lg:justify-end relative animate-fade-up-editorial delay-160 will-change-transform">
                     {/* Botanical Leaf Decoration */}
-                    <img src="/botanical_leaf_remomved.png" alt="" className="absolute -right-16 top-[-100px] md:-right-32 md:top-[-150px] w-[500px] h-[800px] object-cover opacity-30 dark:opacity-10 pointer-events-none -z-20" />
+                    <img src="/botanical_leaf_removed.png" alt="" className="absolute -right-16 top-[-100px] md:-right-32 md:top-[-150px] w-[500px] h-[800px] object-cover opacity-30 dark:opacity-10 pointer-events-none -z-20" />
 
                     {/* Atmospheric Glow */}
                     <div className="absolute inset-0 bg-atmosphere-glow pointer-events-none -z-10" />
