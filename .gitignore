@@ -39,7 +39,7 @@ docker-compose.yml
 server/stats.json
 
 #nginx
-nginx/conf.d/*
+nginx/conf.d/default.conf
 
 # SSL & Security
 nginx/ssl/
