@@ -11,7 +11,12 @@ const resources = {
                 "supportMe": "Support Me",
                 "noLogs": "No Logs",
                 "fastProcessing": "Fast Processing",
-                "cloudPowered": "Cloud Powered"
+                "cloudPowered": "Cloud Powered",
+                "badge": "Clean Files. Protect Privacy.",
+                "heroHeadlineLine1": "Clean Metadata.",
+                "heroHeadlineLine2": "Protect What ",
+                "heroHeadlineMatters": "Matters.",
+                "heroDesc": "Kürdan removes hidden metadata from your files so you can share with confidence."
             },
             "home": {
                 "dropzoneTitle": "Drag & drop files here",
@@ -145,7 +150,12 @@ const resources = {
                 "supportMe": "Bana Destek Ol",
                 "noLogs": "Kayıt Tutulmaz",
                 "fastProcessing": "Hızlı İşlem",
-                "cloudPowered": "Bulut Destekli"
+                "cloudPowered": "Bulut Destekli",
+                "badge": "Dosyaları Temizle. Gizliliğini Koru.",
+                "heroHeadlineLine1": "Metadataları Temizle.",
+                "heroHeadlineLine2": "Önemli Olanı ",
+                "heroHeadlineMatters": "Koru.",
+                "heroDesc": "Kürdan dosyalarınızdaki gizli metadataları siler, böylece güvenle paylaşabilirsiniz."
             },
             "home": {
                 "dropzoneTitle": "Dosyaları buraya sürükleyin",

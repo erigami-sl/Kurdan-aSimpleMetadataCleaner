@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { ShieldCheck, Zap, EyeOff, Download, Trash2, CloudUpload } from 'lucide-react';
+import { ShieldCheck, Zap, EyeOff, Download, Trash2, CloudUpload, Leaf } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Dropzone from '../components/Dropzone';
 import FileItem from '../components/FileItem';
@@ -242,20 +242,66 @@ export default function Home() {
 
     return (
         <>
-            {/* Info features */}
-            <div className="flex items-center justify-center gap-6 text-xs font-medium text-slate-400 dark:text-slate-500 mb-8">
-                <span className="flex items-center gap-1"><EyeOff className="w-3 h-3" /> {t('app.noLogs')}</span>
-                <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> {t('app.fastProcessing')}</span>
-                <span className="flex items-center gap-1"><CloudUpload className="w-3 h-3" /> {t('app.cloudPowered')}</span>
-            </div>
+            {/* 1. Hero Section (2-Column) */}
+            <section className="w-full flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8 mb-20 relative">
+                
+                {/* Decorative background blob */}
+                <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/4 w-[600px] h-[600px] bg-sage-100/40 dark:bg-sage-900/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
-            {/* 1. Main Upload Area */}
-            <section className="w-full">
-                <Dropzone
-                    onFilesAdded={handleFilesAdded}
-                    onHoverChange={setIsInteractionActive}
-                    forceActive={isInteractionActive}
-                />
+                {/* Left Column: Editorial Messaging */}
+                <div className="flex-1 max-w-xl w-full">
+                    {/* Badge */}
+                    <div className="inline-flex items-center gap-2 bg-cream-200 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ink-700 dark:text-cream-50 mb-8">
+                        <Leaf className="w-3.5 h-3.5 text-sage-600 dark:text-sage-400" />
+                        {t('app.badge')}
+                    </div>
+
+                    {/* Headline */}
+                    <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl font-light leading-[1.1] text-ink-900 dark:text-cream-50 mb-6">
+                        {t('app.heroHeadlineLine1')} <br />
+                        {t('app.heroHeadlineLine2')}
+                        <span className="text-sage-600 dark:text-sage-400 italic font-medium">{t('app.heroHeadlineMatters')}</span>
+                    </h1>
+
+                    {/* Description */}
+                    <p className="text-lg md:text-xl text-muted-500 dark:text-muted-400 leading-relaxed mb-12 max-w-[480px]">
+                        {t('app.heroDesc')}
+                    </p>
+
+                    {/* Feature Row */}
+                    <div className="flex flex-wrap items-center gap-8">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] flex items-center justify-center text-ink-700 dark:text-cream-50">
+                                <EyeOff className="w-4 h-4" />
+                            </div>
+                            <span className="text-sm font-medium text-ink-700 dark:text-cream-50">{t('app.noLogs')}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] flex items-center justify-center text-ink-700 dark:text-cream-50">
+                                <Zap className="w-4 h-4" />
+                            </div>
+                            <span className="text-sm font-medium text-ink-700 dark:text-cream-50">{t('app.fastProcessing')}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] flex items-center justify-center text-ink-700 dark:text-cream-50">
+                                <CloudUpload className="w-4 h-4" />
+                            </div>
+                            <span className="text-sm font-medium text-ink-700 dark:text-cream-50">{t('app.cloudPowered')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Column: Upload Card */}
+                <div className="flex-1 w-full flex justify-center lg:justify-end relative">
+                    {/* Subtle glow behind card */}
+                    <div className="absolute inset-0 bg-sage-50/50 dark:bg-sage-900/10 blur-2xl rounded-full scale-90 pointer-events-none -z-10" />
+                    
+                    <Dropzone
+                        onFilesAdded={handleFilesAdded}
+                        onHoverChange={setIsInteractionActive}
+                        forceActive={isInteractionActive}
+                    />
+                </div>
             </section>
 
             {/* 2. File List Box & Actions */}
