@@ -35,6 +35,9 @@ server/data/*
 # but usually stats.json is runtime data.
 server/stats.json
 
+#nginx
+nginx/*
+
 # SSL & Security
 nginx/ssl/
 .env
