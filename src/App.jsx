@@ -17,7 +17,7 @@ export default function App() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream-50 dark:bg-[var(--color-dark-bg)] text-ink-700 dark:text-[var(--color-dark-text)] transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-cream-50 dark:bg-[var(--color-dark-bg)] bg-grain text-ink-700 dark:text-[var(--color-dark-text)] transition-colors duration-300">
 
       {/* Header */}
       <header className="w-full">

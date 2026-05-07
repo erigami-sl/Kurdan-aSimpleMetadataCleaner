@@ -8,12 +8,12 @@ export default function HowItWorks() {
     return (
         <section className="w-full flex flex-col items-center text-center mb-24 relative">
             {/* Pill Label */}
-            <div className="inline-flex items-center justify-center bg-cream-100 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] rounded-full px-5 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-ink-700 dark:text-cream-50 mb-6">
+            <div className="animate-fade-up-scroll delay-40 will-change-transform contain-paint inline-flex items-center justify-center bg-cream-100 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] rounded-full px-5 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-ink-700 dark:text-cream-50 mb-6">
                 {t('app.howItWorks')}
             </div>
 
             {/* Headline */}
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink-900 dark:text-cream-50 mb-16 font-medium">
+            <h2 className="animate-fade-up-scroll delay-80 will-change-transform contain-paint font-serif text-4xl md:text-5xl lg:text-6xl text-ink-900 dark:text-cream-50 mb-16 font-medium">
                 {t('app.howItWorksTitle')}
             </h2>
 
@@ -21,10 +21,10 @@ export default function HowItWorks() {
             <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-12 relative">
                 
                 {/* Connecting Lines (Desktop only) */}
-                <div className="hidden md:block absolute top-[40px] left-[15%] right-[15%] h-px bg-cream-300 dark:bg-[var(--color-dark-border)] -z-10" />
+                <div className="animate-fade-up-scroll delay-120 will-change-transform hidden md:block absolute top-[40px] left-[15%] right-[15%] h-px bg-cream-300 dark:bg-[var(--color-dark-border)] -z-10" />
 
                 {/* Step 1 */}
-                <div className="flex flex-col items-center">
+                <div className="animate-fade-up-scroll delay-160 will-change-transform contain-paint flex flex-col items-center">
                     <div className="w-20 h-20 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] flex items-center justify-center text-ink-700 dark:text-cream-50 shadow-sm mb-6 bg-gradient-to-br from-white to-transparent dark:from-white/5">
                         <CloudUpload className="w-8 h-8" strokeWidth={1.5} />
                     </div>
@@ -33,7 +33,7 @@ export default function HowItWorks() {
                 </div>
 
                 {/* Step 2 */}
-                <div className="flex flex-col items-center">
+                <div className="animate-fade-up-scroll delay-200 will-change-transform contain-paint flex flex-col items-center">
                     <div className="w-20 h-20 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] flex items-center justify-center text-ink-700 dark:text-cream-50 shadow-sm mb-6 bg-gradient-to-br from-white to-transparent dark:from-white/5">
                         <Sparkles className="w-8 h-8" strokeWidth={1.5} />
                     </div>
@@ -42,7 +42,7 @@ export default function HowItWorks() {
                 </div>
 
                 {/* Step 3 */}
-                <div className="flex flex-col items-center">
+                <div className="animate-fade-up-scroll delay-240 will-change-transform contain-paint flex flex-col items-center">
                     <div className="w-20 h-20 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] border border-cream-300 dark:border-[var(--color-dark-border)] flex items-center justify-center text-ink-700 dark:text-cream-50 shadow-sm mb-6 bg-gradient-to-br from-white to-transparent dark:from-white/5">
                         <Download className="w-8 h-8" strokeWidth={1.5} />
                     </div>
