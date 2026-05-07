@@ -76,13 +76,13 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
             onClick={() => onSelect(fileData.id)}
             className={`
                 relative px-4 py-5 md:px-6 md:py-5 flex items-center gap-6 cursor-pointer transition-colors group overflow-hidden
-                ${isSelected ? 'bg-indigo-50/60 dark:bg-indigo-900/40' : 'hover:bg-slate-50 dark:bg-slate-950/40 dark:hover:bg-slate-900/60'}
+                ${isSelected ? 'bg-sage-50 border-l-4 border-sage-500 dark:bg-sage-900/20 dark:border-sage-400' : 'border-l-4 border-transparent hover:bg-cream-100 dark:hover:bg-[var(--color-dark-card)]'}
             `}
         >
             {/* Upload Background (Orange) - Shrinks from Left to Right to reveal the underlying "done" state */}
             {!isSelected && status === 'uploading' && (
                 <div
-                    className="absolute inset-y-0 right-0 bg-indigo-100 dark:bg-indigo-900/50 z-0 transition-all duration-300 ease-out"
+                    className="absolute inset-y-0 right-0 bg-sage-200/50 dark:bg-sage-900/30 z-0 transition-all duration-300 ease-out"
                     style={{ width: `${100 - visualProgress}%` }}
                 />
             )}
@@ -93,17 +93,17 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
                 </div>
                 {status === 'processing' && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <Loader2 className="w-6 h-6 text-indigo-600 dark:text-indigo-400 animate-spin" />
+                        <Loader2 className="w-6 h-6 text-sage-600 dark:text-sage-400 animate-spin" />
                     </div>
                 )}
             </div>
 
             {/* File Info */}
             <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5 z-10">
-                <span className={`text-sm font-medium truncate ${isSelected ? 'text-indigo-700 dark:text-indigo-300' : 'text-slate-700 dark:text-slate-200'}`}>
+                <span className={`text-sm font-medium truncate ${isSelected ? 'text-sage-700 dark:text-sage-400' : 'text-ink-900 dark:text-cream-50'}`}>
                     {originalFile.name}
                 </span>
-                <span className="text-xs text-slate-500 dark:text-slate-400">
+                <span className="text-xs text-muted-500 dark:text-muted-400">
                     {getSize(originalFile.size)}
                 </span>
             </div>
@@ -114,12 +114,12 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
                 {status === 'error' && <AlertCircle className="w-4 h-4 text-red-500 dark:text-red-400" title={error} />}
 
                 {/* Vertical Divider (Hidden on mobile) */}
-                <div className="hidden md:block w-px h-8 bg-slate-100 dark:bg-slate-700 mx-1"></div>
+                <div className="hidden md:block w-px h-8 bg-cream-300 dark:bg-[var(--color-dark-border)] mx-1"></div>
 
                 {status === 'done' && (
                     <button
                         onClick={handleDownload}
-                        className="p-1.5 rounded-md text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
+                        className="p-1.5 rounded-md text-muted-400 hover:text-sage-600 hover:bg-cream-200 dark:hover:bg-[var(--color-dark-border)] transition-colors"
                         title="Download Cleaned File"
                     >
                         <Download className="w-4 h-4" />
@@ -128,14 +128,14 @@ export default function FileItem({ fileData, onRemove, onSelect, isSelected }) {
 
                 <button
                     onClick={(e) => { e.stopPropagation(); onRemove(fileData.id); }}
-                    className="p-1.5 rounded-md text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                    className="p-1.5 rounded-md text-muted-400 hover:text-red-600 hover:bg-cream-200 dark:hover:bg-[var(--color-dark-border)] transition-colors"
                     title="Remove File"
                 >
                     <Trash2 className="w-4 h-4" />
                 </button>
 
                 {/* Expand Chevron Hint */}
-                <div className={`transition-transform duration-200 ${isSelected ? 'rotate-90 text-indigo-500' : 'text-slate-300'}`}>
+                <div className={`transition-transform duration-200 ${isSelected ? 'rotate-90 text-sage-600 dark:text-sage-400' : 'text-cream-400 dark:text-[var(--color-dark-border)]'}`}>
                     <ChevronRight className="w-4 h-4" />
                 </div>
             </div>

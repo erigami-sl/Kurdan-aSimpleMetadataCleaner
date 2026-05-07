@@ -315,20 +315,20 @@ export default function Home() {
 
             {/* 3. File List Box & Actions */}
             {files.length > 0 && (
-                <section className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 mt-8">
-                    <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50">
+                <section className="bg-cream-50 dark:bg-[var(--color-dark-bg)] rounded-[var(--radius-md)] shadow-organic border border-cream-300 dark:border-[var(--color-dark-border)] overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 mt-8">
+                    <div className="p-5 border-b border-cream-300 dark:border-[var(--color-dark-border)] flex items-center justify-between bg-cream-100 dark:bg-[var(--color-dark-card)]">
                         <div>
-                            <h2 className="font-semibold text-slate-700 dark:text-slate-200 text-sm uppercase tracking-wider">{t('home.fileQueue')} ({files.length})</h2>
-                            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{t('home.clickToViewMetadata')}</p>
+                            <h2 className="font-semibold text-ink-900 dark:text-cream-50 text-sm uppercase tracking-wider">{t('home.fileQueue')} ({files.length})</h2>
+                            <p className="text-xs text-muted-500 dark:text-muted-400 mt-1">{t('home.clickToViewMetadata')}</p>
                         </div>
                         {doneCount > 0 && (
-                            <span className="text-xs font-medium text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-full">
+                            <span className="text-xs font-medium text-sage-600 bg-sage-200 dark:text-sage-300 dark:bg-sage-900/50 px-3 py-1 rounded-full">
                                 {doneCount} {t('home.cleaned')}
                             </span>
                         )}
                     </div>
 
-                    <div className="divide-y divide-slate-100 dark:divide-slate-700 max-h-[400px] overflow-y-auto custom-scrollbar">
+                    <div className="divide-y divide-cream-300 dark:divide-[var(--color-dark-border)] max-h-[400px] overflow-y-auto custom-scrollbar">
                         {files.map(file => (
                             <FileItem
                                 key={file.id}
@@ -351,10 +351,10 @@ export default function Home() {
                     </div>
 
                     {/* Action Area (Bottom Right) */}
-                    <div className="bg-slate-50 dark:bg-slate-800 p-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-end gap-3">
+                    <div className="bg-cream-100 dark:bg-[var(--color-dark-card)] p-5 border-t border-cream-300 dark:border-[var(--color-dark-border)] flex items-center justify-end gap-4">
                         <button
                             onClick={clearAll}
-                            className="text-sm text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 font-medium px-4 py-2 transition-colors flex items-center gap-2"
+                            className="text-sm text-muted-500 dark:text-muted-400 hover:text-red-600 dark:hover:text-red-400 font-medium px-4 py-2 transition-colors flex items-center gap-2"
                         >
                             <Trash2 className="w-4 h-4" />
                             {t('home.clearQueue')}
@@ -364,7 +364,7 @@ export default function Home() {
                         {doneCount > 0 && doneCount === files.length ? (
                             <button
                                 onClick={downloadAll}
-                                className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium shadow-sm transition-all flex items-center gap-2"
+                                className="bg-sage-600 hover:bg-sage-700 text-white dark:bg-sage-500 dark:hover:bg-sage-400 dark:text-ink-900 px-6 py-2.5 rounded-2xl font-medium shadow-sm transition-all flex items-center gap-2"
                             >
                                 <Download className="w-4 h-4" />
                                 {t('home.downloadAll')} ({doneCount})
@@ -375,7 +375,7 @@ export default function Home() {
                                 onClick={processAll}
                                 disabled={isProcessing || pendingCount === 0 || uploadingCount > 0}
                                 className={`
-                  bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium shadow-sm transition-all flex items-center gap-2
+                  bg-ink-900 hover:bg-ink-800 text-cream-50 dark:bg-ink-800 dark:hover:bg-ink-700 px-6 py-2.5 rounded-2xl font-medium shadow-sm transition-all flex items-center gap-2
                   ${(isProcessing || pendingCount === 0 || uploadingCount > 0) ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
                             >
