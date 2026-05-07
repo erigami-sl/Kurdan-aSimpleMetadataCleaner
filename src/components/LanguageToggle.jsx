@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Globe } from 'lucide-react';
 
 export default function LanguageToggle() {
     const { i18n } = useTranslation();
@@ -13,12 +12,12 @@ export default function LanguageToggle() {
     return (
         <button
             onClick={toggleLanguage}
-            className="flex items-center gap-1.5 h-9 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-cream-200 dark:bg-[var(--color-dark-card)] text-muted-500 dark:text-muted-400 hover:bg-cream-300 dark:hover:bg-[var(--color-dark-border)] transition-colors"
             title="Toggle Language / Dili Değiştir"
         >
-            <span className={`text-xs font-bold leading-none ${i18n.language === 'tr' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`}>TR</span>
-            <span className="text-slate-300 dark:text-slate-600 text-[10px] leading-none">|</span>
-            <span className={`text-xs font-bold leading-none ${i18n.language === 'en' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`}>EN</span>
+            <span className={`text-xs font-bold leading-none ${i18n.language === 'tr' ? 'text-sage-600 dark:text-sage-400' : 'text-muted-400 dark:text-muted-500'}`}>TR</span>
+            <span className="text-cream-400 dark:text-[var(--color-dark-border)] text-[10px] leading-none select-none">|</span>
+            <span className={`text-xs font-bold leading-none ${i18n.language === 'en' ? 'text-sage-600 dark:text-sage-400' : 'text-muted-400 dark:text-muted-500'}`}>EN</span>
         </button>
     );
 }

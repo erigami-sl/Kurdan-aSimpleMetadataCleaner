@@ -7,33 +7,33 @@ export default function SupportModal({ isOpen, onClose }) {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-950/40 backdrop-blur-sm" onClick={onClose}>
             <div
-                className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-sm w-full p-6 relative border border-slate-200 dark:border-slate-700"
+                className="bg-cream-50 dark:bg-[var(--color-dark-card)] rounded-[var(--radius-lg)] shadow-organic-lg max-w-sm w-full p-8 relative border border-cream-300 dark:border-[var(--color-dark-border)]"
                 onClick={e => e.stopPropagation()}
             >
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                    className="absolute top-5 right-5 text-muted-400 hover:text-ink-700 dark:hover:text-cream-50 transition-colors"
                 >
                     <X className="w-5 h-5" />
                 </button>
 
-                <div className="flex flex-col items-center text-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
-                        <AlertCircle className="w-6 h-6" />
+                <div className="flex flex-col items-center text-center gap-5">
+                    <div className="w-14 h-14 rounded-full bg-cream-200 dark:bg-[var(--color-dark-border)] flex items-center justify-center text-ink-700 dark:text-cream-50">
+                        <AlertCircle className="w-7 h-7" />
                     </div>
 
                     <div className="space-y-2">
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{t('home.serviceUnavailable')}</h3>
-                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                        <h3 className="font-serif text-2xl font-medium text-ink-900 dark:text-cream-50">{t('home.serviceUnavailable')}</h3>
+                        <p className="text-sm text-muted-500 dark:text-muted-400 leading-relaxed">
                             {t('home.serviceUnavailableMsg')}
                         </p>
                     </div>
 
                     <button
                         onClick={onClose}
-                        className="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg py-2.5 font-medium transition-colors"
+                        className="mt-4 w-full bg-ink-900 hover:bg-ink-800 text-cream-50 dark:bg-sage-600 dark:hover:bg-sage-500 rounded-2xl py-3 font-medium transition-colors"
                     >
                         {t('home.gotIt')}
                     </button>

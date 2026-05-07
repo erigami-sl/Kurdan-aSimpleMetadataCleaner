@@ -28,10 +28,10 @@ export default function ThemeToggle() {
     return (
         <button
             onClick={toggleTheme}
-            className="h-9 w-9 flex items-center justify-center rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors"
+            className="h-9 w-9 flex items-center justify-center rounded-full bg-cream-200 text-muted-500 hover:bg-cream-300 hover:text-sage-600 dark:bg-[var(--color-dark-card)] dark:text-muted-400 dark:hover:bg-[var(--color-dark-border)] dark:hover:text-sage-400 transition-colors"
             title="Toggle Theme"
         >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
     );
 }

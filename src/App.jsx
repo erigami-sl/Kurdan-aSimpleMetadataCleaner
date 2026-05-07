@@ -17,34 +17,43 @@ export default function App() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 py-6 px-4 font-sans transition-colors duration-200">
-      <div className="max-w-[800px] w-full mx-auto space-y-8 flex-1">
+    <div className="min-h-screen flex flex-col bg-cream-50 dark:bg-[var(--color-dark-bg)] text-ink-700 dark:text-[var(--color-dark-text)] transition-colors duration-300">
 
-        {/* Header */}
-        <header className="flex items-center justify-between py-4">
-          <div className="flex flex-col">
+      {/* Header */}
+      <header className="w-full">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-20 py-6 flex items-center justify-between">
+
+          {/* Logo */}
+          <div className="flex items-center gap-4">
             <a href="/" className="hover:opacity-80 transition-opacity">
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{t('app.title')}</h1>
+              <h1 className="font-serif text-2xl md:text-[1.7rem] font-medium italic tracking-wide text-ink-700 dark:text-cream-50">
+                {t('app.title')}
+              </h1>
             </a>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">{t('app.subtitle')}</p>
+            <span className="hidden sm:block text-sm text-muted-500 dark:text-muted-400 font-sans">
+              {t('app.subtitle')}
+            </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Actions */}
+          <div className="flex items-center gap-2 md:gap-3">
             <button
               onClick={() => setIsSupportModalOpen(true)}
-              className="group flex items-center gap-2 p-2 sm:px-3 sm:py-2 rounded-lg transition-colors text-pink-600 hover:bg-pink-50 dark:text-pink-400 dark:hover:bg-pink-900/20"
+              className="group flex items-center gap-2 px-3 py-2 rounded-[var(--radius-sm)] transition-colors text-muted-500 hover:text-sage-600 hover:bg-cream-200 dark:text-muted-400 dark:hover:bg-[var(--color-dark-card)] dark:hover:text-sage-400"
               title={t('app.supportMe')}
             >
-              <Heart className="w-5 h-5 sm:w-4 sm:h-4 group-hover:fill-current" />
+              <Heart className="w-4 h-4 group-hover:fill-current" />
               <span className="hidden sm:inline text-sm font-medium">{t('app.supportMe')}</span>
             </button>
             <ThemeToggle />
             <LanguageToggle />
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* Main Content (Routes) */}
-        <main>
+      {/* Main Content */}
+      <main className="flex-1 w-full">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-20 py-8 md:py-12">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/privacy" element={<Privacy />} />
@@ -52,9 +61,9 @@ export default function App() {
             <Route path="/license" element={<License />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
-        </main>
+        </div>
+      </main>
 
-      </div>
       <Footer />
       <SupportModal isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
     </div>
