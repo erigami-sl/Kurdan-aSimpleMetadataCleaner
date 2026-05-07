@@ -309,13 +309,9 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* 2. Stats & How It Works */}
-            <StatsCard totalCleaned={globalTotalCleaned} />
-            <HowItWorks />
-
-            {/* 3. File List Box & Actions */}
+            {/* 2. File List Box & Actions */}
             {files.length > 0 && (
-                <section className="bg-cream-50 dark:bg-[var(--color-dark-bg)] rounded-[var(--radius-md)] shadow-organic border border-cream-300 dark:border-[var(--color-dark-border)] overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 mt-8">
+                <section className="bg-cream-50 dark:bg-[var(--color-dark-bg)] rounded-[var(--radius-md)] shadow-organic border border-cream-300 dark:border-[var(--color-dark-border)] overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 mb-20 -mt-10 relative z-10">
                     <div className="p-5 border-b border-cream-300 dark:border-[var(--color-dark-border)] flex items-center justify-between bg-cream-100 dark:bg-[var(--color-dark-card)]">
                         <div>
                             <h2 className="font-semibold text-ink-900 dark:text-cream-50 text-sm uppercase tracking-wider">{t('home.fileQueue')} ({files.length})</h2>
@@ -386,6 +382,10 @@ export default function Home() {
                     </div>
                 </section>
             )}
+
+            {/* 3. Stats & How It Works */}
+            <StatsCard totalCleaned={globalTotalCleaned} />
+            <HowItWorks />
         </>
     );
 }
