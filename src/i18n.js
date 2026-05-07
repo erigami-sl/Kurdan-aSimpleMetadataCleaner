@@ -159,7 +159,7 @@ const resources = {
         translation: {
             "app": {
                 "title": "Kürdan",
-                "subtitle": "Zarif ve Güvenli Veri Temizleyici",
+                "subtitle": "Sade bir Metaveri Temizleyici",
                 "supportMe": "Bana Destek Ol",
                 "noLogs": "Sıfır Kayıt",
                 "fastProcessing": "Anında İşlem",
