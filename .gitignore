@@ -33,7 +33,7 @@ server/data/*
 !server/data/.gitkeep
 # Ensure we don't ignore the empty stats file if we want to track the structure, 
 # but usually stats.json is runtime data.
-# If you want to keep a template, use stats.json.example
+server/stats.json
 
 # SSL & Security
 nginx/ssl/
@@ -48,3 +48,5 @@ desktop.ini
 
 # Docker
 docker-compose.override.yml
+docker-compose.dev.yml
+Dockerfile.dev

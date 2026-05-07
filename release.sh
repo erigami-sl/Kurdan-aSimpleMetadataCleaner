@@ -1,15 +1,15 @@
 #!/bin/bash
 
-echo "📦 Preparing Release v1.1.1..."
+echo "📦 Preparing Release v2.0.0..."
 
 # Stage potential remaining changes
 git add .
 
 # Commit version bump
-git commit -m "chore(release): v1.1.1"
+git commit -m "chore(release): v2.0.0"
 
 # Create tag
-git tag -a v1.1.1 -m "Release v1.1.1: UI Polish & Core Fixes"
+git tag -a v2.0.0 -m "Release v2.0.0: Premium UI/UX Redesign (Soft Organic Modernism)"
 
 echo "✅ Release prepared locally."
 echo "👉 NEXT STEP: Push to GitHub by running:"
